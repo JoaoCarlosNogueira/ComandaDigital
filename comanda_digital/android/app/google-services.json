@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "311514575764",
+    "project_id": "comandaapp-885b9",
+    "storage_bucket": "comandaapp-885b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311514575764:android:39f92219404070974b5581",
+        "android_client_info": {
+          "package_name": "com.comanda.digital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311514575764-firggc5nq98c5q2rcttgi8cabuguq1tb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwLB2A4c7n7ZcA1mas5tirTBgbZ625jrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311514575764-firggc5nq98c5q2rcttgi8cabuguq1tb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

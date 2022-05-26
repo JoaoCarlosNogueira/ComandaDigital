@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "comanda_digital",
+            "cwd": "comanda_digital",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "comanda_digital (profile mode)",
+            "cwd": "comanda_digital",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "comanda_digital (release mode)",
+            "cwd": "comanda_digital",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
