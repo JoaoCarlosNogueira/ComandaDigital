@@ -1,9 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:comanda_digital/Model/units/User/employee.dart';
-import 'package:comanda_digital/Model/units/item.dart';
-import 'package:comanda_digital/Model/units/itemservice.dart';
-import 'package:comanda_digital/Model/units/request.dart';
-import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Screens/adicionarPedido.dart';
 
@@ -24,7 +18,16 @@ class RequestAddScreen extends StatefulWidget {
 class _RequestAddScreenState extends State<RequestAddScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  RestaurantCommand command = RestaurantCommand(
+    id: '',
+    table: '',
+    date: '',
+    total: '',
+    condition: '',
+    clientName: '',
+    employee: [],
+    requests: [],
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,10 +183,6 @@ class _RequestAddScreenState extends State<RequestAddScreen> {
                       );
                       return;
                     }
-                    RestaurantCommandService restaurantService =
-                        RestaurantCommandService();
-                    restaurantService
-                        .deleteRestaurantCommand(widget.command.id);
                   }
                 },
                 child: const Text(
@@ -211,8 +210,7 @@ class _RequestAddScreenState extends State<RequestAddScreen> {
                     }
                     RestaurantCommandService restaurantService =
                         RestaurantCommandService();
-                    restaurantService
-                        .deleteRestaurantCommand(widget.command.id);
+                    restaurantService.updateRestaurantCommand(command);
                   }
                 },
                 child: const Text(

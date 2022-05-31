@@ -16,7 +16,8 @@ class Item {
   });
 
   Item.fromMap(Map<String, dynamic> map)
-      : name = map['name'],
+      : id = map['id'],
+        name = map['name'],
         description = map['description'],
         disponibility = map['disponibility'],
         category = map['category'],
@@ -24,6 +25,7 @@ class Item {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'description': description,
       'disponibility': disponibility,

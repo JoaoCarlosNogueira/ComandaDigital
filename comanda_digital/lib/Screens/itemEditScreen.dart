@@ -2,7 +2,7 @@ import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
 import 'package:flutter/material.dart';
 
-class ItemEditScreen extends StatelessWidget {
+class ItemEditScreens extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Item item = Item(
@@ -14,7 +14,7 @@ class ItemEditScreen extends StatelessWidget {
     disponibility: '',
   );
 
-  ItemEditScreen({Key? key}) : super(key: key);
+  ItemEditScreens({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +34,8 @@ class ItemEditScreen extends StatelessWidget {
                       children: <Widget>[
                         TextFormField(
                           decoration: const InputDecoration(
-                              hintText: 'Informe o codigo do Item'),
+                              border: OutlineInputBorder(),
+                              labelText: 'Código'),
                           validator: (id) {
                             if (id!.isEmpty) {
                               return 'Campo obrigatorio!!!';
@@ -47,7 +48,8 @@ class ItemEditScreen extends StatelessWidget {
                           height: 16,
                         ),
                         TextFormField(
-                          decoration: const InputDecoration(hintText: 'Nome '),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(), labelText: 'Nome'),
                           validator: (name) {
                             if (name!.isEmpty) {
                               return 'Campo obrigatorio';
@@ -64,7 +66,8 @@ class ItemEditScreen extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                              hintText: ' Informe a Categoria'),
+                              border: OutlineInputBorder(),
+                              labelText: 'Categoria'),
                           obscureText: false,
                           validator: (category) {
                             if (category!.isEmpty) {
@@ -80,8 +83,9 @@ class ItemEditScreen extends StatelessWidget {
                           height: 16,
                         ),
                         TextFormField(
-                          decoration:
-                              const InputDecoration(hintText: 'Descrição'),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Descricão'),
                           keyboardType: TextInputType.text,
                           validator: (description) {
                             if (description!.isEmpty) {
@@ -99,7 +103,7 @@ class ItemEditScreen extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                              hintText: 'Informe o valor do Item'),
+                              border: OutlineInputBorder(), labelText: 'Valor'),
                           obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty) {

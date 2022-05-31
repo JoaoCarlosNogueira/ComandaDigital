@@ -11,27 +11,6 @@ class DashboardScreen extends StatelessWidget {
   );
 
   ItensDashboard item1 = ItensDashboard(
-    event: '0',
-    image: './assets/images/refresh.png',
-    title: "Editar Itens",
-    subtitle: "Adicionar, Atualizar, deletar",
-  );
-
-  ItensDashboard item2 = ItensDashboard(
-    event: '0',
-    image: './assets/images/list.png',
-    title: "Exibir itens",
-    subtitle: "Adicionar, Atualizar, deletar",
-  );
-
-  ItensDashboard item3 = ItensDashboard(
-    event: '0',
-    image: './assets/images/food.png',
-    title: "Pedido",
-    subtitle: "Adicionar, Atualizar, deletar",
-  );
-
-  ItensDashboard item4 = ItensDashboard(
       event: '0',
       image: './assets/images/restaurant.png',
       title: "Comanda",
@@ -42,9 +21,6 @@ class DashboardScreen extends StatelessWidget {
     List<ItensDashboard> myList = [
       item0,
       item1,
-      item2,
-      item3,
-      item4,
     ];
     return Scaffold(
       body: Padding(
@@ -89,16 +65,8 @@ class DashboardScreen extends StatelessWidget {
     if (index == 0) {
       Navigator.of(context).pushNamed('/additem');
     }
+
     if (index == 1) {
-      Navigator.of(context).pushNamed('/editItem');
-    }
-    if (index == 2) {
-      Navigator.of(context).pushNamed('/getitens');
-    }
-    if (index == 3) {
-      Navigator.of(context).pushNamed('/getRequest');
-    }
-    if (index == 4) {
       Navigator.of(context).pushNamed('/addcomanda');
     }
   }

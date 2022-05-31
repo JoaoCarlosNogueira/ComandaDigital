@@ -1,21 +1,39 @@
 import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
+import 'package:comanda_digital/Screens/helpers/numberItemMask.dart';
+import 'package:comanda_digital/Screens/items_list_screen.dart';
 import 'package:comanda_digital/item_delete_screen.dart';
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 
-class ItemAddScreen extends StatelessWidget {
+class ItemAddScreen extends StatefulWidget {
+  ItemAddScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ItemAddScreen> createState() => _ItemAddScreenState();
+}
+
+class _ItemAddScreenState extends State<ItemAddScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late final TextInputMask _numberItemMask;
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   Item item = Item(
-    id: 'id',
-    name: 'name',
-    category: 'category',
-    description: 'desciption',
-    value: 'value',
-    disponibility: '',
+    id: '',
+    name: '',
+    category: '',
+    description: '',
+    value: '',
+    disponibility: 'Disponível',
   );
 
-  ItemAddScreen({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    _numberItemMask = NumberItemMask();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +52,8 @@ class ItemAddScreen extends StatelessWidget {
             shrinkWrap: true,
             children: <Widget>[
               TextFormField(
-                decoration:
-                    const InputDecoration(hintText: 'Informe o codigo do Item'),
-                obscureText: false,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Código'),
                 validator: (id) {
                   if (id!.isEmpty) {
                     return 'Campo obrigatorio!!!';
@@ -44,17 +61,19 @@ class ItemAddScreen extends StatelessWidget {
                   return null;
                 },
                 onSaved: (id) => item.id = id!,
+                inputFormatters: [_numberItemMask],
               ),
               const SizedBox(
                 height: 16,
               ),
               TextFormField(
-                decoration: const InputDecoration(hintText: 'Nome '),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Nome'),
                 validator: (name) {
                   if (name!.isEmpty) {
                     return 'Campo obrigatorio';
                   } else if (name.trim().split('').length <= 1) {
-                    return 'Preencha seu nome Completo';
+                    return 'Preencha o nome do produto';
                   }
 
                   return null;
@@ -65,9 +84,8 @@ class ItemAddScreen extends StatelessWidget {
                 height: 16,
               ),
               TextFormField(
-                decoration:
-                    const InputDecoration(hintText: ' Informe a Categoria'),
-                obscureText: false,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Categoria'),
                 validator: (category) {
                   if (category!.isEmpty) {
                     return 'Campo obrigatório!!!';
@@ -82,7 +100,8 @@ class ItemAddScreen extends StatelessWidget {
                 height: 16,
               ),
               TextFormField(
-                decoration: const InputDecoration(hintText: 'Descrição'),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Descrição'),
                 keyboardType: TextInputType.text,
                 validator: (description) {
                   if (description!.isEmpty) {
@@ -98,9 +117,8 @@ class ItemAddScreen extends StatelessWidget {
                 height: 16,
               ),
               TextFormField(
-                decoration:
-                    const InputDecoration(hintText: 'Informe o valor do Item'),
-                obscureText: true,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Valor'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Campo obrigatorio!!!';
@@ -155,26 +173,11 @@ class ItemAddScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                    if (formKey.currentState!.validate() == false) {
-                      const ScaffoldMessenger(
-                        child: SnackBar(
-                          content: Text(
-                            'Verifique os dados e tende novamente!!!',
-                            style: TextStyle(fontSize: 11),
-                          ),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                      return;
-                    }
-                    ItemService itemService = ItemService();
-                    itemService.deleteItem(item.id);
-                  }
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ItemslistScreen()));
                 },
                 child: const Text(
-                  'Remover Item',
+                  'Ver Itens',
                   style: TextStyle(
                     fontSize: 16,
                   ),

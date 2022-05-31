@@ -5,12 +5,14 @@ import 'package:comanda_digital/Screens/adicionarPedido.dart';
 import 'package:comanda_digital/Screens/getrequest.dart';
 import 'package:comanda_digital/Screens/itemAdddScreen.dart';
 import 'package:comanda_digital/Screens/itemEditScreen.dart';
+import 'package:comanda_digital/Screens/itemEdit_screen.dart';
 import 'package:comanda_digital/Screens/items_list_screen.dart';
 import 'package:comanda_digital/Screens/login/EmployeeListScreen.dart';
 import 'package:comanda_digital/home/home_screen.dart';
 import 'package:comanda_digital/item_delete_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'Model/units/item.dart';
 import 'Screens/login/login_screen.dart';
 
 void main() async {
@@ -35,8 +37,16 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomeScreen(),
         '/login': (context) => LoginScreen(),
         '/additem': (context) => ItemAddScreen(),
-        '/editItem': (context) => ItemEditScreen(),
-        '/getitens': (context) => ItemslistScreen(),
+        '/editItem': (context) => ItemEditScreen(
+              item: Item(
+                  id: "id",
+                  name: 'name',
+                  category: 'category',
+                  description: 'description',
+                  value: 'value',
+                  disponibility: 'disponibility'),
+            ),
+        '/getitens': (context) => const ItemslistScreen(),
         '/listUsers': (context) => const EmployeeListScreen(),
         '/addcomanda': (context) => RestaurantCommandAddScreen(),
         '/getcomanda': (context) => CommandListScreen(),

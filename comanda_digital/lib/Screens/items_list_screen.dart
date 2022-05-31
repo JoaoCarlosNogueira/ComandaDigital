@@ -1,19 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
+import 'package:comanda_digital/Screens/itemEdit_screen.dart';
 import 'package:flutter/material.dart';
 
 class ItemslistScreen extends StatelessWidget {
+  const ItemslistScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ItemService ownerServices = ItemService();
-    Item item = Item(
-        id: 'id',
-        name: 'name',
-        category: 'category',
-        value: 'value',
-        description: '',
-        disponibility: '');
     return Material(
       child: StreamBuilder<QuerySnapshot>(
         stream: ownerServices.getItems(),
@@ -22,14 +18,37 @@ class ItemslistScreen extends StatelessWidget {
             List<DocumentSnapshot> docSnap = snapshot.data!.docs;
             return ListView.separated(
               itemBuilder: (context, index) {
+                var item = Item(
+                    id: (docSnap[index].id),
+                    name: (docSnap[index].get('name')),
+                    category: (docSnap[index].get('category')),
+                    description: (docSnap[index].get('description')),
+                    value: (docSnap[index].get('value')),
+                    disponibility: (docSnap[index].get('disponibility')));
                 return Card(
-                  child: Column(children: [
-                    Text(docSnap[index].id),
-                    Text(docSnap[index].get('name')),
-                    Text(docSnap[index].get('description')),
-                    Text(docSnap[index].get('category')),
-                    Text(docSnap[index].get('value')),
-                  ]),
+                  child: Column(
+                    children: [
+                      Text(item.id),
+                      Text(item.name),
+                      Text(item.description),
+                      Text(item.category),
+                      Text(item.value),
+                      Text(item.disponibility),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  ItemEditScreen(item: item)));
+                        },
+                        child: const Text(
+                          'Editar Itens',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
               separatorBuilder: (context, index) {

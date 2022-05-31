@@ -31,8 +31,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^1.13.1
   firebase_auth: ^3.3.16
+  fluttertoast: ^8.0.9
+  numberpicker: ^2.1.1
   flutter:
     sdk: flutter
+  easy_mask: ^2.0.1
 
 
 dev_dependencies:

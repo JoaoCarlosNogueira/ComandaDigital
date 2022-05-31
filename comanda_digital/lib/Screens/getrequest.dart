@@ -11,14 +11,14 @@ class GetRequest extends StatelessWidget {
   Widget build(BuildContext context) {
     RequestService requestService = RequestService();
     RestaurantCommand command = RestaurantCommand(
-        id: '',
         clientName: '',
         condition: '',
         date: '',
         employee: [],
         requests: [],
         table: '',
-        total: '');
+        total: '',
+        id: '');
     var item = Item(
         id: '',
         name: '',
@@ -35,12 +35,12 @@ class GetRequest extends StatelessWidget {
             return ListView.separated(
               itemBuilder: (context, index) {
                 var request = Request(
-                    item: item,
-                    quantity: (docSnap[index].get('quantity')),
-                    subtotal: (docSnap[index].get('subtotal')));
+                  item: item,
+                  quantity: (docSnap[index].get(0)),
+                  subtotal: (docSnap[index].get('subtotal')),
+                );
                 return Card(
                   child: Column(children: [
-                    Text(item.id),
                     Text(request.quantity),
                     Text(request.subtotal),
                   ]),

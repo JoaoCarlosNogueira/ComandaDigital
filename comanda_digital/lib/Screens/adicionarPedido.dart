@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
 import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 import '../Model/units/item.dart';
 
 class AdicionarPedido extends StatefulWidget {
@@ -19,6 +18,7 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
   final GlobalKey<ScaffoldState> Keyzinho = GlobalKey<ScaffoldState>();
   ItemService itemService = ItemService();
   RequestService requestService = RequestService();
+  int _currentValue = 3;
 
   AdicionarPedidoState(RestaurantCommand command);
   @override
@@ -45,8 +45,11 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
                     disponibility: '');
 
                 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-                Request request =
-                    Request(quantity: '', subtotal: '', item: item);
+                Request request = Request(
+                  quantity: '',
+                  subtotal: '',
+                  item: item,
+                );
                 return Card(
                   child: Form(
                     key: formKey,

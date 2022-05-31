@@ -1,7 +1,7 @@
 import 'package:comanda_digital/Model/units/item.dart';
 
 class Request {
-  late String id;
+  String? id;
   late Item item;
   late String quantity;
   late String subtotal;

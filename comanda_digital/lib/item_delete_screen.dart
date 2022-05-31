@@ -67,7 +67,7 @@ class ItemDeleteScreen extends StatelessWidget {
                       }
                     },
                     child: const Text(
-                      'Adicionar Item',
+                      'Remover Item',
                       style: TextStyle(
                         fontSize: 16,
                       ),
