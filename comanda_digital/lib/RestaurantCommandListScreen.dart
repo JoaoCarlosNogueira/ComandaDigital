@@ -9,7 +9,14 @@ import 'package:comanda_digital/Screens/adicionarPedido.dart';
 
 import 'package:flutter/material.dart';
 
-class CommandListScreen extends StatelessWidget {
+class CommandListScreen extends StatefulWidget {
+  const CommandListScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CommandListScreen> createState() => _CommandListScreenState();
+}
+
+class _CommandListScreenState extends State<CommandListScreen> {
   @override
   Widget build(BuildContext context) {
     RestaurantCommandService commandService = RestaurantCommandService();
@@ -32,7 +39,7 @@ class CommandListScreen extends StatelessWidget {
                     requests: [],
                     table: (docSnap[index].get('table')),
                     total: (docSnap[index].get('total')),
-                    id: (docSnap[index].get('total')));
+                    id: (docSnap[index].id));
                 return GestureDetector(
                   child: Card(
                     child: SingleChildScrollView(
@@ -49,41 +56,61 @@ class CommandListScreen extends StatelessWidget {
                                 stream: requestService.getRequest(command),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return FutureBuilder<DocumentSnapshot>(
-                                      future: (itemService.getItem(
-                                          (docSnap[index].get('itemid')))),
-                                      builder:
-                                          (BuildContext context, snapshot) {
-                                        var item = Item(
-                                            id: snapshot.data!.get('id'),
-                                            name: snapshot.data!.get('name'),
-                                            category:
-                                                snapshot.data!.get('category'),
-                                            description: snapshot.data!
-                                                .get('description'),
-                                            value: snapshot.data!.get('value'),
-                                            disponibility: snapshot.data!
-                                                .get('disponibility'));
-                                        var request = Request(
-                                            quantity: (docSnap[index]
-                                                .get('quantity')),
-                                            subtotal: (docSnap[index]
-                                                .get('subtotal')),
-                                            item: item);
+                                    List<DocumentSnapshot> docSnap =
+                                        snapshot.data!.docs;
+                                    return ListView.separated(
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return FutureBuilder<DocumentSnapshot>(
+                                          future: (itemService
+                                              .getItem((docSnap[index].id))),
+                                          builder:
+                                              (BuildContext context, snapshot) {
+                                            var item = Item(
+                                                id: snapshot.data!.get('id'),
+                                                name:
+                                                    snapshot.data!.get('name'),
+                                                category: snapshot.data!
+                                                    .get('category'),
+                                                description: snapshot.data!
+                                                    .get('description'),
+                                                value:
+                                                    snapshot.data!.get('value'),
+                                                disponibility: snapshot.data!
+                                                    .get('disponibility'));
+                                            var request = Request(
+                                                quantity: (docSnap[index]
+                                                    .get('quantity')),
+                                                subtotal: (docSnap[index]
+                                                    .get('subtotal')),
+                                                item: item);
 
-                                        return Card(
-                                            child: Column(
-                                          children: [
-                                            Text('Código do Produto' + item.id),
-                                            Text('Produto' + item.name),
-                                            Text('Categoria' + item.category),
-                                            Text('Valor' + item.value),
-                                            Text('Disponibilidade' +
-                                                item.disponibility),
-                                            Text('Quantity' + request.quantity),
-                                            Text('Subtotal' + request.subtotal)
-                                          ],
-                                        ));
+                                            return Card(
+                                                child: Column(
+                                              children: [
+                                                Text('Código do Produto' +
+                                                    item.id),
+                                                Text('Produto' + item.name),
+                                                Text('Categoria' +
+                                                    item.category),
+                                                Text('Valor' + item.value),
+                                                Text('Disponibilidade' +
+                                                    item.disponibility),
+                                                Text('Quantity' +
+                                                    request.quantity),
+                                                Text('Subtotal' +
+                                                    request.subtotal)
+                                              ],
+                                            ));
+                                          },
+                                        );
+                                      },
+                                      itemCount: docSnap.length,
+                                      separatorBuilder:
+                                          (BuildContext context, int index) {
+                                        return const SizedBox(
+                                          height: 10,
+                                        );
                                       },
                                     );
                                   } else if (snapshot.connectionState ==
