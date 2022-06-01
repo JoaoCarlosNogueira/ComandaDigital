@@ -62,48 +62,55 @@ class _CommandListScreenState extends State<CommandListScreen> {
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return FutureBuilder<DocumentSnapshot>(
-                                          future: (itemService
-                                              .getItem((docSnap[index].id))),
-                                          builder:
-                                              (BuildContext context, snapshot) {
+                                        future: itemService.getItem(
+                                            docSnap[index].get('itemid')),
+                                        builder:
+                                            (BuildContext context, snapshot) {
+                                          if (snapshot.hasData) {
                                             var item = Item(
-                                                id: snapshot.data!.get('id'),
-                                                name:
-                                                    snapshot.data!.get('name'),
-                                                category: snapshot.data!
-                                                    .get('category'),
-                                                description: snapshot.data!
-                                                    .get('description'),
-                                                value:
-                                                    snapshot.data!.get('value'),
-                                                disponibility: snapshot.data!
-                                                    .get('disponibility'));
+                                              id: snapshot.data!.id,
+                                              name: snapshot.data!.get('name'),
+                                              category: snapshot.data!
+                                                  .get('category'),
+                                              description: snapshot.data!
+                                                  .get('description'),
+                                              value:
+                                                  snapshot.data!.get('value'),
+                                              disponibility: snapshot.data!
+                                                  .get('disponibility'),
+                                            );
+
                                             var request = Request(
-                                                quantity: (docSnap[index]
-                                                    .get('quantity')),
-                                                subtotal: (docSnap[index]
-                                                    .get('subtotal')),
-                                                item: item);
+                                              quantity: docSnap[index]
+                                                  .get('quantity'),
+                                              subtotal: docSnap[index]
+                                                  .get('subtotal'),
+                                              item: item,
+                                            );
 
                                             return Card(
-                                                child: Column(
-                                              children: [
-                                                Text('Código do Produto' +
-                                                    item.id),
-                                                Text('Produto' + item.name),
-                                                Text('Categoria' +
-                                                    item.category),
-                                                Text('Valor' + item.value),
-                                                Text('Disponibilidade' +
-                                                    item.disponibility),
-                                                Text('Quantity' +
-                                                    request.quantity),
-                                                Text('Subtotal' +
-                                                    request.subtotal)
-                                              ],
-                                            ));
-                                          },
-                                        );
+                                              child: Column(
+                                                children: [
+                                                  Text('Código do Produto' +
+                                                      item.id),
+                                                  Text('Produto' + item.name),
+                                                  Text('Categoria' +
+                                                      item.category),
+                                                  Text('Valor' + item.value),
+                                                  Text('Disponibilidade' +
+                                                      item.disponibility),
+                                                  Text('Quantity' +
+                                                      request.quantity),
+                                                  Text('Subtotal' +
+                                                      request.subtotal)
+                                                ],
+                                              ),
+                                            );
+                                          } else {
+                                            return Text('k');
+                                          }
+                                        },
+                                      );
                                       },
                                       itemCount: docSnap.length,
                                       separatorBuilder:
