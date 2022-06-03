@@ -24,7 +24,7 @@ class _ItemAddScreenState extends State<ItemAddScreen> {
     name: '',
     category: '',
     description: '',
-    value: '',
+    value: 0,
     disponibility: 'Disponível',
   );
 
@@ -125,7 +125,7 @@ class _ItemAddScreenState extends State<ItemAddScreen> {
                   }
                   return null;
                 },
-                onSaved: (value) => item.value = value!,
+                onSaved: (value) => item.value = double.parse(value!),
               ),
               const SizedBox(
                 height: 16,

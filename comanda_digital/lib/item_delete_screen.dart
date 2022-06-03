@@ -12,7 +12,7 @@ class ItemDeleteScreen extends StatelessWidget {
       category: '',
       description: '',
       disponibility: '',
-      value: '');
+      value: 0);
   ItemDeleteScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {

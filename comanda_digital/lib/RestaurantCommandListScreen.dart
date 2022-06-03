@@ -47,7 +47,7 @@ class _CommandListScreenState extends State<CommandListScreen> {
                         children: [
                           Text(command.table),
                           Text(command.date),
-                          Text(command.total),
+                          Text("Total:" + command.total.toString()),
                           Text(command.condition),
                           Text(command.clientName),
                           SizedBox(
@@ -62,55 +62,59 @@ class _CommandListScreenState extends State<CommandListScreen> {
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         return FutureBuilder<DocumentSnapshot>(
-                                        future: itemService.getItem(
-                                            docSnap[index].get('itemid')),
-                                        builder:
-                                            (BuildContext context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            var item = Item(
-                                              id: snapshot.data!.id,
-                                              name: snapshot.data!.get('name'),
-                                              category: snapshot.data!
-                                                  .get('category'),
-                                              description: snapshot.data!
-                                                  .get('description'),
-                                              value:
-                                                  snapshot.data!.get('value'),
-                                              disponibility: snapshot.data!
-                                                  .get('disponibility'),
-                                            );
+                                          future: itemService.getItem(
+                                              docSnap[index].get('itemid')),
+                                          builder:
+                                              (BuildContext context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              var item = Item(
+                                                id: snapshot.data!.id,
+                                                name:
+                                                    snapshot.data!.get('name'),
+                                                category: snapshot.data!
+                                                    .get('category'),
+                                                description: snapshot.data!
+                                                    .get('description'),
+                                                value:
+                                                    snapshot.data!.get('value'),
+                                                disponibility: snapshot.data!
+                                                    .get('disponibility'),
+                                              );
 
-                                            var request = Request(
-                                              quantity: docSnap[index]
-                                                  .get('quantity'),
-                                              subtotal: docSnap[index]
-                                                  .get('subtotal'),
-                                              item: item,
-                                            );
+                                              var request = Request(
+                                                quantity: docSnap[index]
+                                                    .get('quantity'),
+                                                subtotal: docSnap[index]
+                                                    .get('subtotal'),
+                                                item: item,
+                                              );
 
-                                            return Card(
-                                              child: Column(
-                                                children: [
-                                                  Text('Código do Produto' +
-                                                      item.id),
-                                                  Text('Produto' + item.name),
-                                                  Text('Categoria' +
-                                                      item.category),
-                                                  Text('Valor' + item.value),
-                                                  Text('Disponibilidade' +
-                                                      item.disponibility),
-                                                  Text('Quantity' +
-                                                      request.quantity),
-                                                  Text('Subtotal' +
-                                                      request.subtotal)
-                                                ],
-                                              ),
-                                            );
-                                          } else {
-                                            return Text('k');
-                                          }
-                                        },
-                                      );
+                                              return Card(
+                                                child: Column(
+                                                  children: [
+                                                    Text('Código do Produto' +
+                                                        item.id.toString()),
+                                                    Text('Produto' + item.name),
+                                                    Text('Categoria' +
+                                                        item.category),
+                                                    Text('Valor' +
+                                                        item.value.toString()),
+                                                    Text('Disponibilidade' +
+                                                        item.disponibility),
+                                                    Text('Quantity' +
+                                                        request.quantity
+                                                            .toString()),
+                                                    Text('Subtotal' +
+                                                        request.subtotal
+                                                            .toString())
+                                                  ],
+                                                ),
+                                              );
+                                            } else {
+                                              return Text('k');
+                                            }
+                                          },
+                                        );
                                       },
                                       itemCount: docSnap.length,
                                       separatorBuilder:

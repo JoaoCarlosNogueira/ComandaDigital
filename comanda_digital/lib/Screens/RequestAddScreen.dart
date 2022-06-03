@@ -22,12 +22,13 @@ class _RequestAddScreenState extends State<RequestAddScreen> {
     id: '',
     table: '',
     date: '',
-    total: '',
+    total: 0,
     condition: '',
     clientName: '',
     employee: [],
     requests: [],
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +93,7 @@ class _RequestAddScreenState extends State<RequestAddScreen> {
                 height: 16,
               ),
               TextFormField(
-                onSaved: (value) => widget.command.total = value!,
+                onSaved: (value) => widget.command.total = value! as double,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Total'),
                 validator: (value) {

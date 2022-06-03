@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
 import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
@@ -21,6 +22,14 @@ class RequestService {
     var pedidoCollection =
         _firestore.collection('comanda').doc(command.id).collection('pedido');
     return pedidoCollection.snapshots();
+  }
+
+  getRequests(RestaurantCommand command) async {
+    var pedidoCollection = await _firestore
+        .collection('comanda')
+        .doc(command.id)
+        .collection('pedido');
+    return pedidoCollection.get();
   }
 
   deleteRequest(String id) {

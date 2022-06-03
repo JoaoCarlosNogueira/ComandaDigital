@@ -3,8 +3,8 @@ import 'package:comanda_digital/Model/units/itemservice.dart';
 import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
+import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
 import '../Model/units/item.dart';
 
 class AdicionarPedido extends StatefulWidget {
@@ -18,7 +18,17 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
   final GlobalKey<ScaffoldState> Keyzinho = GlobalKey<ScaffoldState>();
   ItemService itemService = ItemService();
   RequestService requestService = RequestService();
-  int _currentValue = 3;
+  RestaurantCommandService serviceCommand = RestaurantCommandService();
+  RestaurantCommand command = RestaurantCommand(
+    id: '',
+    table: '',
+    date: '',
+    total: 0,
+    condition: '',
+    clientName: '',
+    employee: [],
+    requests: [],
+  );
 
   AdicionarPedidoState(RestaurantCommand command);
   @override
@@ -46,8 +56,8 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
 
                 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
                 Request request = Request(
-                  quantity: '',
-                  subtotal: '',
+                  quantity: 0,
+                  subtotal: 0,
                   item: item,
                 );
                 return Card(
@@ -61,29 +71,13 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
                       Text(item.name),
                       Text(item.category),
                       Text(item.description),
-                      Text(item.value),
+                      Text(item.value.toString()),
                       const SizedBox(
                         height: 16,
                       ),
                       TextFormField(
-                        onSaved: (quantity) => request.quantity = quantity!,
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Quantidade de Pedido'),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Digite um valor valor válido';
-                          } else if (value.isEmpty) {
-                            return 'Campo obrigatório';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        onSaved: (subtotal) => request.subtotal = subtotal!,
+                        onSaved: (quantity) =>
+                            request.quantity = int.parse(quantity!),
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Quantidade de Pedido'),
@@ -102,7 +96,14 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
                       ElevatedButton(
                         onPressed: () {
                           formKey.currentState!.save();
+                          request.subtotal = item.value * request.quantity;
                           requestService.addpedido(request, widget.command);
+                          for (int i = 0; i < command.requests!.length; i++) {
+                            command.total = 0;
+                            command.total =
+                                command.total + command.requests![i].subtotal;
+                          }
+                          serviceCommand.updateRestaurantCommand(command);
                         },
                         child: const Text(
                           'Adicionar Pedido',

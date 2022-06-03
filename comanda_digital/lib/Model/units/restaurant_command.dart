@@ -6,7 +6,7 @@ class RestaurantCommand {
   late String table;
   late List<Request>? requests;
   late String date;
-  late String total;
+  late double total;
   List<Employee>? employee;
   late String condition;
   late String clientName;

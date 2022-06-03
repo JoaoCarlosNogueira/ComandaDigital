@@ -16,7 +16,7 @@ class ItemService {
     return employeeCollection.snapshots();
   }
 
-  Future<DocumentSnapshot>getItem(String itemId) async {
+  Future<DocumentSnapshot> getItem(String itemId) async {
     var employeeCollection =
         await _firestore.collection("itens").doc(itemId).get();
     return employeeCollection;

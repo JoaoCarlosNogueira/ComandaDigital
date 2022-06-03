@@ -3,8 +3,8 @@ import 'package:comanda_digital/Model/units/item.dart';
 class Request {
   String? id;
   late Item item;
-  late String quantity;
-  late String subtotal;
+  late int quantity;
+  late double subtotal;
 
   Request({required this.item, required this.quantity, required this.subtotal});
 

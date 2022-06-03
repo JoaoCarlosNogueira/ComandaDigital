@@ -1,3 +1,5 @@
+import 'package:comanda_digital/Model/units/item.dart';
+import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
 import 'package:comanda_digital/RestaurantCommandListScreen.dart';
@@ -24,12 +26,31 @@ class _RestaurantCommandAddScreenState
     id: '',
     table: '',
     date: '',
-    total: '',
+    total: 0,
     condition: '',
     clientName: '',
     employee: [],
     requests: [],
   );
+  Item item = Item(
+      id: '',
+      name: '',
+      category: '',
+      description: '',
+      value: 0,
+      disponibility: '');
+
+  Request request = Request(
+      item: Item(
+          id: '',
+          name: '',
+          category: '',
+          description: '',
+          disponibility: '',
+          value: 0),
+      quantity: 0,
+      subtotal: 0);
+
   late final TextInputMask _dateMask;
 
   @override
@@ -103,20 +124,6 @@ class _RestaurantCommandAddScreenState
                 height: 16,
               ),
               TextFormField(
-                onSaved: (value) => command.total = value!,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Total'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Campo obrigatório';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
                 onSaved: (value) => command.condition = value!,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Condicao'),
@@ -174,7 +181,7 @@ class _RestaurantCommandAddScreenState
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CommandListScreen()));
+                      builder: (context) => const CommandListScreen()));
                 },
                 child: const Text(
                   'Comandas Abertas',

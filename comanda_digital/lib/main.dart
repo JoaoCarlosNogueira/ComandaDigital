@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
                   name: 'name',
                   category: 'category',
                   description: 'description',
-                  value: 'value',
+                  value: 0,
                   disponibility: 'disponibility'),
             ),
         '/getitens': (context) => const ItemslistScreen(),

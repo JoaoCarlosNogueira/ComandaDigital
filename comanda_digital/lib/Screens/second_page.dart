@@ -13,7 +13,7 @@ class SecondPage extends StatelessWidget {
         id: 'id',
         name: 'name',
         category: 'category',
-        value: 'value',
+        value: 0,
         description: '',
         disponibility: '');
     return Material(

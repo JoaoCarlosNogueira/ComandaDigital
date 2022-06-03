@@ -33,7 +33,7 @@ class _itemEditScreen extends State<ItemEditScreen> {
     nameController.text = widget.item.name;
     categoryController.text = widget.item.category;
     descriptionController.text = widget.item.description;
-    valueController.text = widget.item.value;
+    valueController.text = widget.item.value as String;
     disponibilityController.text = widget.item.disponibility;
     _numberItemMask = NumberItemMask();
   }
@@ -45,7 +45,7 @@ class _itemEditScreen extends State<ItemEditScreen> {
     name: '',
     category: '',
     description: '',
-    value: '',
+    value: 0,
     disponibility: '',
   );
 

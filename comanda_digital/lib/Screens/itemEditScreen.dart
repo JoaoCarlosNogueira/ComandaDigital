@@ -10,7 +10,7 @@ class ItemEditScreens extends StatelessWidget {
     name: 'name',
     category: 'category',
     description: 'desciption',
-    value: 'value',
+    value: 0,
     disponibility: '',
   );
 
@@ -111,7 +111,7 @@ class ItemEditScreens extends StatelessWidget {
                             }
                             return null;
                           },
-                          onSaved: (value) => item.value = value!,
+                          onSaved: (value) => item.value = value! as double,
                         ),
                         const SizedBox(
                           height: 16,

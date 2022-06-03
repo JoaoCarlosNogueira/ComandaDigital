@@ -32,7 +32,7 @@ class ItemslistScreen extends StatelessWidget {
                       Text(item.name),
                       Text(item.description),
                       Text(item.category),
-                      Text(item.value),
+                      Text(item.value.toString()),
                       Text(item.disponibility),
                       ElevatedButton(
                         onPressed: () {

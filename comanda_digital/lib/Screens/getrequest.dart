@@ -17,7 +17,7 @@ class GetRequest extends StatelessWidget {
         employee: [],
         requests: [],
         table: '',
-        total: '',
+        total: 0,
         id: '');
     var item = Item(
         id: '',
@@ -25,7 +25,7 @@ class GetRequest extends StatelessWidget {
         category: '',
         description: '',
         disponibility: '',
-        value: '');
+        value: 0);
     return Material(
       child: StreamBuilder<QuerySnapshot>(
         stream: requestService.getRequest(command),
@@ -41,8 +41,8 @@ class GetRequest extends StatelessWidget {
                 );
                 return Card(
                   child: Column(children: [
-                    Text(request.quantity),
-                    Text(request.subtotal),
+                    Text(request.quantity.toString()),
+                    Text(request.subtotal.toString()),
                   ]),
                 );
               },

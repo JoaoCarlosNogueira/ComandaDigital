@@ -4,7 +4,7 @@ class Item {
   late String description;
   late String disponibility;
   late String category;
-  late String value;
+  late double value;
 
   Item({
     required this.id,
