@@ -11,14 +11,15 @@ class GetRequest extends StatelessWidget {
   Widget build(BuildContext context) {
     RequestService requestService = RequestService();
     RestaurantCommand command = RestaurantCommand(
-        clientName: '',
-        condition: '',
-        date: '',
-        employee: [],
-        requests: [],
-        table: '',
-        total: 0,
-        id: '');
+      clientName: '',
+      condition: '',
+      date: '',
+      employee: [],
+      requests: [],
+      table: '',
+      total: 0,
+      id: '',
+    );
     var item = Item(
         id: '',
         name: '',

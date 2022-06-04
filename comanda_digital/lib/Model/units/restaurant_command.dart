@@ -3,16 +3,18 @@ import 'package:comanda_digital/Model/units/request.dart';
 
 class RestaurantCommand {
   String? id;
-  late String table;
-  late List<Request>? requests;
-  late String date;
-  late double total;
+  String table;
+  List<Request>? requests;
+  String date;
+  double total;
   List<Employee>? employee;
-  late String condition;
-  late String clientName;
+  String condition;
+  String? paymentForm;
+  String clientName;
 
   RestaurantCommand(
-      {required this.id,
+      {this.paymentForm,
+      required this.id,
       required this.table,
       required this.requests,
       required this.date,
@@ -26,6 +28,7 @@ class RestaurantCommand {
         date = map['date'],
         total = map['total'],
         condition = map['condition'],
+        paymentForm = map['paymentform'],
         clientName = map['clientName'];
   Map<String, dynamic> toMap() {
     return {
@@ -33,6 +36,7 @@ class RestaurantCommand {
       'date': date,
       'total': total,
       'condition': condition,
+      'paymentform': paymentForm,
       'clientName': clientName
     };
   }

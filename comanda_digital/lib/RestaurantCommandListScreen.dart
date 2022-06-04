@@ -6,6 +6,7 @@ import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
 import 'package:comanda_digital/Screens/adicionarPedido.dart';
+import 'package:comanda_digital/Screens/closecCommandScreen.dart';
 
 import 'package:flutter/material.dart';
 
@@ -41,110 +42,126 @@ class _CommandListScreenState extends State<CommandListScreen> {
                     total: (docSnap[index].get('total')),
                     id: (docSnap[index].id));
                 return GestureDetector(
-                  child: Card(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Text(command.table),
-                          Text(command.date),
-                          Text("Total:" + command.total.toString()),
-                          Text(command.condition),
-                          Text(command.clientName),
-                          SizedBox(
-                            height: 300,
-                            child: StreamBuilder<QuerySnapshot>(
-                                stream: requestService.getRequest(command),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    List<DocumentSnapshot> docSnap =
-                                        snapshot.data!.docs;
-                                    return ListView.separated(
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return FutureBuilder<DocumentSnapshot>(
-                                          future: itemService.getItem(
-                                              docSnap[index].get('itemid')),
-                                          builder:
-                                              (BuildContext context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              var item = Item(
-                                                id: snapshot.data!.id,
-                                                name:
-                                                    snapshot.data!.get('name'),
-                                                category: snapshot.data!
-                                                    .get('category'),
-                                                description: snapshot.data!
-                                                    .get('description'),
-                                                value:
-                                                    snapshot.data!.get('value'),
-                                                disponibility: snapshot.data!
-                                                    .get('disponibility'),
-                                              );
-
-                                              var request = Request(
-                                                quantity: docSnap[index]
-                                                    .get('quantity'),
-                                                subtotal: docSnap[index]
-                                                    .get('subtotal'),
-                                                item: item,
-                                              );
-
-                                              return Card(
-                                                child: Column(
-                                                  children: [
-                                                    Text('Código do Produto' +
-                                                        item.id.toString()),
-                                                    Text('Produto' + item.name),
-                                                    Text('Categoria' +
-                                                        item.category),
-                                                    Text('Valor' +
-                                                        item.value.toString()),
-                                                    Text('Disponibilidade' +
-                                                        item.disponibility),
-                                                    Text('Quantity' +
-                                                        request.quantity
-                                                            .toString()),
-                                                    Text('Subtotal' +
-                                                        request.subtotal
-                                                            .toString())
-                                                  ],
-                                                ),
-                                              );
-                                            } else {
-                                              return Text('k');
-                                            }
-                                          },
-                                        );
-                                      },
-                                      itemCount: docSnap.length,
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
-                                        return const SizedBox(
-                                          height: 10,
-                                        );
-                                      },
-                                    );
-                                  } else if (snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    return ListView(
-                                      children: const [
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional.center,
-                                          child:
-                                              Text("Não há dados disponíveis"),
-                                        ),
-                                      ],
-                                    );
-                                  } else {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  }
-                                }),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Card(
+                          child: Column(
+                            children: [
+                              Text(command.table),
+                              Text(command.date),
+                              Text("Total:" + command.total.toString()),
+                              Text(command.condition),
+                              Text(command.clientName),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    CloseCommandScreen(command: command)));
+                          },
+                          child: const Text(
+                            'Fechar Comanda',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: requestService.getRequest(command),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<DocumentSnapshot> docSnap =
+                                  snapshot.data!.docs;
+                              return SizedBox(
+                                height: 300,
+                                child: ListView.separated(
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return FutureBuilder<DocumentSnapshot>(
+                                      future: itemService.getItem(
+                                          docSnap[index].get('itemid')),
+                                      builder:
+                                          (BuildContext context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          var item = Item(
+                                            id: snapshot.data!.id,
+                                            name: snapshot.data!.get('name'),
+                                            category:
+                                                snapshot.data!.get('category'),
+                                            description: snapshot.data!
+                                                .get('description'),
+                                            value: snapshot.data!.get('value'),
+                                            disponibility: snapshot.data!
+                                                .get('disponibility'),
+                                          );
+
+                                          var request = Request(
+                                            quantity:
+                                                docSnap[index].get('quantity'),
+                                            subtotal:
+                                                docSnap[index].get('subtotal'),
+                                            item: item,
+                                          );
+
+                                          return Card(
+                                            child: Column(
+                                              children: [
+                                                Text('Código do Produto' +
+                                                    item.id.toString()),
+                                                Text('Produto' + item.name),
+                                                Text('Categoria' +
+                                                    item.category),
+                                                Text('Valor' +
+                                                    item.value.toString()),
+                                                Text('Disponibilidade' +
+                                                    item.disponibility),
+                                                Text('Quantity' +
+                                                    request.quantity
+                                                        .toString()),
+                                                Text('Subtotal' +
+                                                    request.subtotal.toString())
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Text('k');
+                                        }
+                                      },
+                                    );
+                                  },
+                                  itemCount: docSnap.length,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const SizedBox(
+                                      height: 10,
+                                    );
+                                  },
+                                ),
+                              );
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return ListView(
+                                children: const [
+                                  Align(
+                                    alignment: AlignmentDirectional.center,
+                                    child: Text("Não há dados disponíveis"),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   onTap: () {

@@ -28,6 +28,7 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
     clientName: '',
     employee: [],
     requests: [],
+    paymentForm: 'x',
   );
 
   AdicionarPedidoState(RestaurantCommand command);
@@ -98,8 +99,8 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
                           formKey.currentState!.save();
                           request.subtotal = item.value * request.quantity;
                           requestService.addpedido(request, widget.command);
+                          command.total = 0;
                           for (int i = 0; i < command.requests!.length; i++) {
-                            command.total = 0;
                             command.total =
                                 command.total + command.requests![i].subtotal;
                           }

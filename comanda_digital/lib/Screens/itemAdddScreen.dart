@@ -7,7 +7,7 @@ import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 
 class ItemAddScreen extends StatefulWidget {
-  ItemAddScreen({Key? key}) : super(key: key);
+  const ItemAddScreen({Key? key}) : super(key: key);
 
   @override
   State<ItemAddScreen> createState() => _ItemAddScreenState();

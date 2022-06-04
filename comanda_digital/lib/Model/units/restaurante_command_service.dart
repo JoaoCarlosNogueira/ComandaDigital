@@ -29,8 +29,8 @@ class RestaurantCommandService {
     docRef
         .update(command.toMap())
         .whenComplete(
-            () => debugPrint("Dados do ${command.id} deletado com sucesso!!"))
+            () => debugPrint("Dados do ${command.id} alterados com sucesso!!"))
         .catchError(
-            (erro) => debugPrint("Erro ao deletar o ${command.id} -> $erro!!"));
+            (erro) => debugPrint("Erro ao alterar o ${command.id} -> $erro!!"));
   }
 }

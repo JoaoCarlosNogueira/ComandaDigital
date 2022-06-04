@@ -10,7 +10,7 @@ class ItemEditScreen extends StatefulWidget {
   final Item item;
 
   const ItemEditScreen({required this.item, Key? key}) : super(key: key);
-  @override
+  //@override
   @override
   State<ItemEditScreen> createState() => _itemEditScreen();
 }
@@ -30,10 +30,11 @@ class _itemEditScreen extends State<ItemEditScreen> {
   void initState() {
     super.initState();
     idController.text = widget.item.id;
+
     nameController.text = widget.item.name;
     categoryController.text = widget.item.category;
     descriptionController.text = widget.item.description;
-    valueController.text = widget.item.value as String;
+    valueController.text = widget.item.value.toString();
     disponibilityController.text = widget.item.disponibility;
     _numberItemMask = NumberItemMask();
   }
@@ -117,7 +118,7 @@ class _itemEditScreen extends State<ItemEditScreen> {
                         keyboardType: TextInputType.name,
                         controller: categoryController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Por favor, entre com a descrição';
                           }
                           return null;

@@ -5,8 +5,8 @@ class FirstPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Text('You are in First Page'),
+    return Scaffold(
+      body: Container(),
     );
   }
 }

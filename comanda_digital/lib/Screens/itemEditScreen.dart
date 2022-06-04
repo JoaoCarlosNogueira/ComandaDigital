@@ -2,9 +2,18 @@ import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
 import 'package:flutter/material.dart';
 
-class ItemEditScreens extends StatelessWidget {
+class ItemEditScreens extends StatefulWidget {
+  const ItemEditScreens({Key? key}) : super(key: key);
+
+  @override
+  State<ItemEditScreens> createState() => _ItemEditScreensState();
+}
+
+class _ItemEditScreensState extends State<ItemEditScreens> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   Item item = Item(
     id: 'id',
     name: 'name',
@@ -14,7 +23,6 @@ class ItemEditScreens extends StatelessWidget {
     disponibility: '',
   );
 
-  ItemEditScreens({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,14 +112,13 @@ class ItemEditScreens extends StatelessWidget {
                         TextFormField(
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(), labelText: 'Valor'),
-                          obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Campo obrigatorio!!!';
                             }
                             return null;
                           },
-                          onSaved: (value) => item.value = value! as double,
+                          onSaved: (value) => item.value = double.parse(value!),
                         ),
                         const SizedBox(
                           height: 16,
