@@ -27,6 +27,7 @@ RestaurantCommand command = RestaurantCommand(
 );
 
 class _CloseCommandScreen extends State<CloseCommandScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var idController = TextEditingController();
   var tableController = TextEditingController();
   var dateController = TextEditingController();
@@ -49,8 +50,6 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
     requestsController.text = widget.command.requests.toString();
   }
 
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +58,7 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             children: [
               Card(
@@ -174,9 +173,10 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       RestaurantCommandService commandService =
                           RestaurantCommandService();
+                      formKey.currentState!.save();
 
                       RestaurantCommand command = RestaurantCommand(
                         id: widget.command.id,

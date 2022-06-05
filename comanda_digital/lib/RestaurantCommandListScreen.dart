@@ -6,6 +6,7 @@ import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
 import 'package:comanda_digital/Screens/adicionarPedido.dart';
+import 'package:comanda_digital/Screens/cancelComandaScreen.dart';
 import 'package:comanda_digital/Screens/closecCommandScreen.dart';
 
 import 'package:flutter/material.dart';
@@ -67,6 +68,20 @@ class _CommandListScreenState extends State<CommandListScreen> {
                           },
                           child: const Text(
                             'Fechar Comanda',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => CancelCommandScreen()),
+                            );
+                          },
+                          child: const Text(
+                            'Cancelar Comanda',
                             style: TextStyle(
                               fontSize: 16,
                             ),

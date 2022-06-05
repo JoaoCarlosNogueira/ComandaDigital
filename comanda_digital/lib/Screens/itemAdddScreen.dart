@@ -89,7 +89,7 @@ class _ItemAddScreenState extends State<ItemAddScreen> {
                 validator: (category) {
                   if (category!.isEmpty) {
                     return 'Campo obrigatório!!!';
-                  } else if (category.length > 10) {
+                  } else if (category.length > 35) {
                     return 'Limite de caracteres excedido';
                   }
                   return null;
@@ -106,7 +106,7 @@ class _ItemAddScreenState extends State<ItemAddScreen> {
                 validator: (description) {
                   if (description!.isEmpty) {
                     return 'Campo obrigatório';
-                  } else if (description.length > 55) {
+                  } else if (description.length > 100) {
                     return ' O limite de caracteres foi excedido';
                   }
                   return null;

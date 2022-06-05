@@ -25,7 +25,7 @@ class _itemEditScreen extends State<ItemEditScreen> {
   var descriptionController = TextEditingController();
   var valueController = TextEditingController();
   var disponibilityController = TextEditingController();
-  late final TextInputMask _numberItemMask;
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,6 @@ class _itemEditScreen extends State<ItemEditScreen> {
     descriptionController.text = widget.item.description;
     valueController.text = widget.item.value.toString();
     disponibilityController.text = widget.item.disponibility;
-    _numberItemMask = NumberItemMask();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -47,7 +46,7 @@ class _itemEditScreen extends State<ItemEditScreen> {
     category: '',
     description: '',
     value: 0,
-    disponibility: '',
+    disponibility: 'oi00000',
   );
 
   @override
@@ -66,11 +65,30 @@ class _itemEditScreen extends State<ItemEditScreen> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      Text(
-                        "ID: ${widget.item.id}",
-                        style: const TextStyle(
+                      const Text(
+                        "ID:",
+                        style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: idController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, entre com o nome';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => item.id = (value!),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -95,6 +113,7 @@ class _itemEditScreen extends State<ItemEditScreen> {
                           }
                           return null;
                         },
+                        onSaved: (value) => item.name = (value!),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -119,10 +138,11 @@ class _itemEditScreen extends State<ItemEditScreen> {
                         controller: categoryController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor, entre com a descrição';
+                            return 'Por favor, entre com a categoria';
                           }
                           return null;
                         },
+                        onSaved: (value) => item.category = (value!),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -151,6 +171,7 @@ class _itemEditScreen extends State<ItemEditScreen> {
                           }
                           return null;
                         },
+                        onSaved: (value) => item.description = (value!),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -174,41 +195,18 @@ class _itemEditScreen extends State<ItemEditScreen> {
                         keyboardType: TextInputType.phone,
                         controller: valueController,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          double.parse(value!);
+                          if (value.isEmpty) {
                             return 'Por favor, entre com o valor';
                           }
                           return null;
                         },
+                        onSaved: (value) => item.value = double.parse(value!),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                      ),
-                      CheckboxListTile(
-                        title: const Text("Disponível"),
-                        checkColor: Colors.white,
-                        value: isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isChecked = value!;
-                            item.disponibility = 'Indisponível';
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        title: const Text("Indísponível"),
-                        checkColor: Colors.white,
-                        value: noChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            noChecked = value!;
-                            item.disponibility = 'Indisponível';
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
                       ),
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,15 +217,8 @@ class _itemEditScreen extends State<ItemEditScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
                       ItemService service = ItemService();
-                      Item item = Item(
-                        id: widget.item.id,
-                        name: widget.item.name,
-                        category: widget.item.category,
-                        description: widget.item.description,
-                        disponibility: widget.item.disponibility,
-                        value: widget.item.value,
-                      );
 
                       service.updateItem(item);
                       Navigator.of(context).pop();
