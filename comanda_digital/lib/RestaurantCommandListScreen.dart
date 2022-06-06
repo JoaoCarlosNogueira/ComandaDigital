@@ -10,6 +10,7 @@ import 'package:comanda_digital/Screens/cancelComandaScreen.dart';
 import 'package:comanda_digital/Screens/closecCommandScreen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CommandListScreen extends StatefulWidget {
   const CommandListScreen({Key? key}) : super(key: key);
@@ -49,16 +50,99 @@ class _CommandListScreenState extends State<CommandListScreen> {
                         Card(
                           child: Column(
                             children: [
-                              Text(command.table),
-                              Text(command.date),
+                              Text('Mesa' + command.table.toString()),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text('Data' + command.date),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Text("Total:" + command.total.toString()),
-                              Text(command.condition),
-                              Text(command.clientName),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text('Condição' + command.condition),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text('Cliente' + command.clientName),
                             ],
                           ),
                         ),
                         const SizedBox(
                           height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.red[400],
+                              foregroundColor: Colors.white,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                ),
+                                alignment: Alignment.centerRight,
+                                // ignore: avoid_returning_null_for_void
+                                onPressed: () {
+                                  if (command.requests!.isEmpty) {
+                                    commandService.deleteRestaurantCommand(
+                                        (docSnap[index].id));
+                                    Fluttertoast.showToast(
+                                      msg: "Comanda cancelada com Sucesso!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: const Color(0x55000000),
+                                    );
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg: "Falha ao cancelar a comanda!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      backgroundColor: const Color(0x55000000),
+                                    );
+                                  }
+                                },
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.red[400],
+                                  foregroundColor: Colors.white,
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.edit,
+                                    ),
+                                    alignment: Alignment.centerRight,
+                                    // ignore: avoid_returning_null_for_void
+                                    onPressed: () {
+                                      if (command.requests!.isEmpty) {
+                                        commandService.deleteRestaurantCommand(
+                                            (docSnap[index].id));
+                                        Fluttertoast.showToast(
+                                          msg: "Comanda cancelada com Sucesso!",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          backgroundColor:
+                                              const Color(0x55000000),
+                                        );
+                                      } else {
+                                        Fluttertoast.showToast(
+                                          msg: "Falha ao cancelar a comanda!",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          backgroundColor:
+                                              const Color(0x55000000),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -68,20 +152,6 @@ class _CommandListScreenState extends State<CommandListScreen> {
                           },
                           child: const Text(
                             'Fechar Comanda',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => CancelCommandScreen()),
-                            );
-                          },
-                          child: const Text(
-                            'Cancelar Comanda',
                             style: TextStyle(
                               fontSize: 16,
                             ),

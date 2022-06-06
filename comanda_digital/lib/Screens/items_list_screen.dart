@@ -2,17 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
 import 'package:comanda_digital/Screens/itemEdit_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ItemslistScreen extends StatelessWidget {
   const ItemslistScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ItemService ownerServices = ItemService();
-    return Material(
-      child: StreamBuilder<QuerySnapshot>(
-        stream: ownerServices.getItems(),
+    ItemService itemService = ItemService();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Listagem de Itens'),
+        centerTitle: true,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: itemService.getItems(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             List<DocumentSnapshot> docSnap = snapshot.data!.docs;
@@ -34,6 +40,31 @@ class ItemslistScreen extends StatelessWidget {
                       Text(item.category),
                       Text(item.value.toString()),
                       Text(item.disponibility),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.red[400],
+                            foregroundColor: Colors.white,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                              ),
+                              alignment: Alignment.centerRight,
+                              // ignore: avoid_returning_null_for_void
+                              onPressed: () {
+                                itemService.deleteItem(item.id);
+                                Fluttertoast.showToast(
+                                  msg: "Produto deletado com Sucesso!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: const Color(0x55000000),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(

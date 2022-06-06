@@ -58,6 +58,11 @@ class _ItemAddScreenState extends State<ItemAddScreen> {
                   if (id!.isEmpty) {
                     return 'Campo obrigatorio!!!';
                   }
+
+                  if (id.length < 6) {
+                    return 'O código deve ter 6 números';
+                  }
+
                   return null;
                 },
                 onSaved: (id) => item.id = id!,

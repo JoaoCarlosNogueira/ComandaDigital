@@ -16,7 +16,7 @@ class GetRequest extends StatelessWidget {
       date: '',
       employee: [],
       requests: [],
-      table: '',
+      table: 0,
       total: 0,
       id: '',
     );
@@ -37,8 +37,8 @@ class GetRequest extends StatelessWidget {
               itemBuilder: (context, index) {
                 var request = Request(
                   item: item,
-                  quantity: (docSnap[index].get(0)),
-                  subtotal: (docSnap[index].get('subtotal')),
+                  quantity: (docSnap[index].get('Quantidade')),
+                  subtotal: (docSnap[index].get('Subtotal')),
                 );
                 return Card(
                   child: Column(children: [

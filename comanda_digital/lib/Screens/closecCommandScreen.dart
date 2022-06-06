@@ -16,7 +16,7 @@ class CloseCommandScreen extends StatefulWidget {
 
 RestaurantCommand command = RestaurantCommand(
   id: '',
-  table: '',
+  table: 0,
   date: '',
   total: 0,
   condition: 'Paga',
@@ -41,7 +41,7 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
   void initState() {
     super.initState();
     idController.text = widget.command.id!;
-    tableController.text = widget.command.table;
+    tableController.text = widget.command.table.toString();
     dateController.text = widget.command.date;
     totalController.text = widget.command.total.toString();
     conditionController.text = widget.command.condition;

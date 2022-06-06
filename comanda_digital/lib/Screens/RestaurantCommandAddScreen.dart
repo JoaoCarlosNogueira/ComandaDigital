@@ -24,7 +24,7 @@ class _RestaurantCommandAddScreenState
 
   RestaurantCommand command = RestaurantCommand(
     id: '',
-    table: '',
+    table: 1,
     date: '',
     total: 0,
     condition: '',
@@ -77,7 +77,7 @@ class _RestaurantCommandAddScreenState
             shrinkWrap: true,
             children: <Widget>[
               TextFormField(
-                onSaved: (value) => command.table = value!,
+                onSaved: (value) => command.table = int.parse(value!),
                 obscureText: false,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Numero da mesa '),
@@ -85,6 +85,7 @@ class _RestaurantCommandAddScreenState
                   if (value!.isEmpty) {
                     return 'Campo obrigatório';
                   }
+
                   return null;
                 },
               ),

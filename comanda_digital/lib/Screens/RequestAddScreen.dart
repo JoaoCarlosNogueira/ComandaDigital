@@ -20,7 +20,7 @@ class _RequestAddScreenState extends State<RequestAddScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   RestaurantCommand command = RestaurantCommand(
     id: '',
-    table: '',
+    table: 0,
     date: '',
     total: 0,
     condition: '',
@@ -47,7 +47,7 @@ class _RequestAddScreenState extends State<RequestAddScreen> {
             shrinkWrap: true,
             children: <Widget>[
               TextFormField(
-                onSaved: (value) => widget.command.table = value!,
+                onSaved: (value) => widget.command.table = int.parse(value!),
                 obscureText: false,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Numero da mesa '),

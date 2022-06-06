@@ -21,7 +21,7 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
   RestaurantCommandService serviceCommand = RestaurantCommandService();
   RestaurantCommand command = RestaurantCommand(
     id: '',
-    table: '',
+    table: 0,
     date: '',
     total: 0,
     condition: '',

@@ -3,7 +3,7 @@ import 'package:comanda_digital/Model/units/request.dart';
 
 class RestaurantCommand {
   String? id;
-  String table;
+  int table;
   List<Request>? requests;
   String date;
   double total;
