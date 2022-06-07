@@ -78,7 +78,8 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
                         }
                         RestaurantCommandService service =
                             RestaurantCommandService();
-                        service.deleteRestaurantCommand(command.id!);
+
+                        service.deleteRestaurantCommand(widget.command.id!);
                       }
                     },
                     child: const Text(

@@ -9,8 +9,12 @@ class RequestEditScreen extends StatefulWidget {
   const RequestEditScreen({
     Key? key,
     required this.request,
+    required this.command,
+    required this.item,
   }) : super(key: key);
   final Request request;
+  final RestaurantCommand command;
+  final Item item;
 
   @override
   State<RequestEditScreen> createState() => _RequestEditScreenState();
@@ -19,38 +23,31 @@ class RequestEditScreen extends StatefulWidget {
 class _RequestEditScreenState extends State<RequestEditScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  var quantityController = TextEditingController();
-  var subtotalController = TextEditingController();
-  var itemController = TextEditingController();
-
   @override
   void initState() {
-    subtotalController.text = widget.request.subtotal.toString();
-    quantityController.text = widget.request.quantity.toString();
-    itemController.text = widget.request.item.toString();
+    /*
+    widget.request.subtotal.toString();
+    widget.request.quantity.toString();
+
+    widget.item.id;
+    widget.item.name;
+    widget.item.category;
+    widget.item.description;
+    widget.item.disponibility;
+    widget.item.value;
+
+    widget.command.id!;
+    widget.command.table.toString();
+    widget.command.date;
+    widget.command.total.toString();
+    widget.command.condition;
+    widget.command.clientName;
+    widget.command.employee.toString();
+    widget.command.requests.toString();
+    */
   }
 
   final _formKey = GlobalKey<FormState>();
-  RestaurantCommand command = RestaurantCommand(
-    id: '',
-    table: 1,
-    date: '',
-    total: 0,
-    condition: '',
-    clientName: '',
-    employee: [],
-    requests: [],
-  );
-  Request request = Request(
-      item: Item(
-          id: '',
-          name: '',
-          value: 0,
-          category: '',
-          description: '',
-          disponibility: ''),
-      quantity: 0,
-      subtotal: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +78,6 @@ class _RequestEditScreenState extends State<RequestEditScreen> {
                         ),
                         TextFormField(
                           keyboardType: TextInputType.phone,
-                          controller: quantityController,
-                          onSaved: (value) =>
-                              request.quantity = int.parse(value!),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Por favor, entre com o nome';
@@ -95,6 +89,8 @@ class _RequestEditScreenState extends State<RequestEditScreen> {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
+                          onSaved: (value) =>
+                              widget.request.quantity = int.parse(value!),
                         ),
                         const SizedBox(
                           height: 16,
@@ -103,8 +99,28 @@ class _RequestEditScreenState extends State<RequestEditScreen> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
-                              print(request.id);
-                              print(command.id);
+                              RestaurantCommand command = RestaurantCommand(
+                                id: widget.command.id,
+                                table: widget.command.table,
+                                date: widget.command.date,
+                                total: widget.command.total,
+                                condition: widget.command.condition,
+                                clientName: widget.command.clientName,
+                                paymentForm: widget.command.paymentForm,
+                                employee: widget.command.employee,
+                                requests: widget.command.requests,
+                              );
+                              Request request = Request(
+                                  item: Item(
+                                      id: widget.item.id,
+                                      name: widget.item.name,
+                                      category: widget.item.category,
+                                      description: widget.item.description,
+                                      disponibility: widget.item.disponibility,
+                                      value: widget.item.value),
+                                  quantity: widget.request.quantity,
+                                  subtotal: widget.request.subtotal);
+
                               if (formKey.currentState!.validate() == false) {
                                 const ScaffoldMessenger(
                                   child: SnackBar(
@@ -117,8 +133,7 @@ class _RequestEditScreenState extends State<RequestEditScreen> {
                                 );
                                 return;
                               }
-                              print(request.id);
-                              print(command.id);
+
                               RequestService service = RequestService();
                               service.updateRequest(request, command);
                             }

@@ -41,6 +41,14 @@ class _CommandListScreenState extends State<CommandListScreen> {
         description: '',
         disponibility: '',
         value: 0);
+    RestaurantCommand command = RestaurantCommand(
+        id: '',
+        table: 0,
+        requests: [],
+        date: '',
+        total: 0,
+        condition: '',
+        clientName: '');
 
     RestaurantCommandService commandService = RestaurantCommandService();
     RequestService requestService = RequestService();
@@ -143,6 +151,8 @@ class _CommandListScreenState extends State<CommandListScreen> {
                                     MaterialPageRoute(
                                         builder: (context) => RequestEditScreen(
                                               request: request,
+                                              command: command,
+                                              item: item,
                                             )),
                                   );
                                 },

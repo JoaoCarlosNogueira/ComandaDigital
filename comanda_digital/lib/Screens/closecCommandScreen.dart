@@ -14,18 +14,6 @@ class CloseCommandScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _CloseCommandScreen();
 }
 
-RestaurantCommand command = RestaurantCommand(
-  id: '',
-  table: 0,
-  date: '',
-  total: 0,
-  condition: 'Paga',
-  clientName: '',
-  paymentForm: '',
-  employee: [],
-  requests: [],
-);
-
 class _CloseCommandScreen extends State<CloseCommandScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var idController = TextEditingController();
