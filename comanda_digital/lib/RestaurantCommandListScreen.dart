@@ -8,6 +8,7 @@ import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
 import 'package:comanda_digital/Screens/adicionarPedido.dart';
 import 'package:comanda_digital/Screens/cancelComandaScreen.dart';
 import 'package:comanda_digital/Screens/closecCommandScreen.dart';
+import 'package:comanda_digital/Screens/requestEditScreen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,6 +23,25 @@ class CommandListScreen extends StatefulWidget {
 class _CommandListScreenState extends State<CommandListScreen> {
   @override
   Widget build(BuildContext context) {
+    Request request = Request(
+        item: Item(
+            id: '',
+            name: '',
+            value: 0,
+            category: '',
+            description: '',
+            disponibility: ''),
+        quantity: 0,
+        subtotal: 0);
+
+    Item item = Item(
+        id: '',
+        name: '',
+        category: '',
+        description: '',
+        disponibility: '',
+        value: 0);
+
     RestaurantCommandService commandService = RestaurantCommandService();
     RequestService requestService = RequestService();
     ItemService itemService = ItemService();
@@ -106,41 +126,27 @@ class _CommandListScreenState extends State<CommandListScreen> {
                                 },
                               ),
                             ),
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.red[400],
-                                  foregroundColor: Colors.white,
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      Icons.edit,
-                                    ),
-                                    alignment: Alignment.centerRight,
-                                    // ignore: avoid_returning_null_for_void
-                                    onPressed: () {
-                                      if (command.requests!.isEmpty) {
-                                        commandService.deleteRestaurantCommand(
-                                            (docSnap[index].id));
-                                        Fluttertoast.showToast(
-                                          msg: "Comanda cancelada com Sucesso!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor:
-                                              const Color(0x55000000),
-                                        );
-                                      } else {
-                                        Fluttertoast.showToast(
-                                          msg: "Falha ao cancelar a comanda!",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          backgroundColor:
-                                              const Color(0x55000000),
-                                        );
-                                      }
-                                    },
-                                  ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            CircleAvatar(
+                              backgroundColor: Colors.red[400],
+                              foregroundColor: Colors.white,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.edit,
                                 ),
-                              ],
+                                alignment: Alignment.centerRight,
+                                // ignore: avoid_returning_null_for_void
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => RequestEditScreen(
+                                              request: request,
+                                            )),
+                                  );
+                                },
+                              ),
                             ),
                           ],
                         ),

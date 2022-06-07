@@ -228,6 +228,13 @@ class _itemEditScreen extends State<ItemEditScreen> {
                         gravity: ToastGravity.BOTTOM,
                         backgroundColor: const Color(0x55111100),
                       );
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Verifique os dados e tente novamente",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: const Color(0x55111100),
+                      );
                     }
                   },
                   child: const Text("Editar Dados"),

@@ -40,13 +40,19 @@ class RequestService {
         .catchError((erro) => debugPrint("Erro ao deletar o $id -> $erro!!"));
   }
 
-  updateRequest(Request request) {
-    DocumentReference docRef = _firestore.collection('pedido').doc(request.id);
+  updateRequest(Request request, RestaurantCommand command) {
+    print(request.id);
+    print('commandId: ${command.id}');
+    DocumentReference docRef = _firestore
+        .collection('comanda')
+        .doc(command.id)
+        .collection('pedido')
+        .doc(request.id);
     docRef
         .update(request.toMap())
         .whenComplete(
-            () => debugPrint("Dados do ${request.id} deletado com sucesso!!"))
-        .catchError(
-            (erro) => debugPrint("Erro ao deletar o ${request.id} -> $erro!!"));
+            () => debugPrint("Dados do ${request.id} atualizado com sucesso!!"))
+        .catchError((erro) =>
+            debugPrint("Erro ao atualizar o ${request.id} -> $erro!!"));
   }
 }
