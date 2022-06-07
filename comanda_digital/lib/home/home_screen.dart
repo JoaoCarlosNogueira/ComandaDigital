@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     pageList.add(const FirstPage());
     pageList.add(DashboardScreen());
-    pageList.add(SecondPage());
+    // pageList.add(SecondPage());
     super.initState();
   }
 

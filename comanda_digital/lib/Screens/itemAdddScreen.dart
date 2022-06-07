@@ -66,7 +66,7 @@ class _ItemAddScreenState extends State<ItemAddScreen> {
                   return null;
                 },
                 onSaved: (id) => item.id = id!,
-                inputFormatters: [_numberItemMask],
+                //inputFormatters: [_numberItemMask],
               ),
               const SizedBox(
                 height: 16,

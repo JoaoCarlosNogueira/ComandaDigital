@@ -11,12 +11,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class CloseCommandScreen extends StatefulWidget {
   final RestaurantCommand command;
-  final Item item;
 
   const CloseCommandScreen({
     required this.command,
     Key? key,
-    required this.item,
   }) : super(key: key);
 
   @override
@@ -26,7 +24,7 @@ class CloseCommandScreen extends StatefulWidget {
 class _CloseCommandScreen extends State<CloseCommandScreen> {
   RequestService requestService = RequestService();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  var itemidController = TextEditingController();
+
   var idController = TextEditingController();
   var tableController = TextEditingController();
   var dateController = TextEditingController();
@@ -40,7 +38,7 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
   @override
   void initState() {
     super.initState();
-    itemidController.text = widget.item.id;
+
     idController.text = widget.command.id!;
     tableController.text = widget.command.table.toString();
     dateController.text = widget.command.date;

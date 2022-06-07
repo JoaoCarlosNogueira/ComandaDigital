@@ -43,6 +43,7 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
       body: StreamBuilder<QuerySnapshot>(
         stream: itemService.getItems(),
         builder: (BuildContext context, snapshot) {
+          //Stream<QuerySnapshot<Object?>>
           if (snapshot.hasData) {
             List<DocumentSnapshot> docSnap = snapshot.data!.docs;
             return ListView.separated(

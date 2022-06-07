@@ -118,7 +118,6 @@ class _CommandListScreenState extends State<CommandListScreen> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => CloseCommandScreen(
                                       command: command,
-                                      item: item,
                                     )));
                           },
                           child: const Text(

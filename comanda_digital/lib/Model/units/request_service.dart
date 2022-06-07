@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 class RequestService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   addpedido(Request request, RestaurantCommand command) async {
     var requestMap = request.toMap();
     var requestRef = await _firestore
@@ -18,7 +17,8 @@ class RequestService {
     request.id = requestRef.id;
   }
 
-  getRequest(RestaurantCommand command) {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getRequest(
+      RestaurantCommand command) {
     var pedidoCollection =
         _firestore.collection('comanda').doc(command.id).collection('pedido');
     return pedidoCollection.snapshots();
