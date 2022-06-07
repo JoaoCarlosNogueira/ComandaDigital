@@ -24,12 +24,11 @@ class RequestService {
     return pedidoCollection.snapshots();
   }
 
-  getRequests(RestaurantCommand command) async {
-    var pedidoCollection = await _firestore
-        .collection('comanda')
-        .doc(command.id)
-        .collection('pedido');
-    return pedidoCollection.get();
+  Future<QuerySnapshot<Map<String, dynamic>>> getRequests(
+      RestaurantCommand command) async {
+    var pedidoCollection =
+        _firestore.collection('comanda').doc(command.id).collection('pedido');
+    return await pedidoCollection.get();
   }
 
   deleteRequest(String id) {

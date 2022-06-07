@@ -23,33 +23,6 @@ class CommandListScreen extends StatefulWidget {
 class _CommandListScreenState extends State<CommandListScreen> {
   @override
   Widget build(BuildContext context) {
-    Request request = Request(
-        item: Item(
-            id: '',
-            name: '',
-            value: 0,
-            category: '',
-            description: '',
-            disponibility: ''),
-        quantity: 0,
-        subtotal: 0);
-
-    Item item = Item(
-        id: '',
-        name: '',
-        category: '',
-        description: '',
-        disponibility: '',
-        value: 0);
-    RestaurantCommand command = RestaurantCommand(
-        id: '',
-        table: 0,
-        requests: [],
-        date: '',
-        total: 0,
-        condition: '',
-        clientName: '');
-
     RestaurantCommandService commandService = RestaurantCommandService();
     RequestService requestService = RequestService();
     ItemService itemService = ItemService();
@@ -71,6 +44,7 @@ class _CommandListScreenState extends State<CommandListScreen> {
                     table: (docSnap[index].get('table')),
                     total: (docSnap[index].get('total')),
                     id: (docSnap[index].id));
+
                 return GestureDetector(
                   child: SingleChildScrollView(
                     child: Column(
@@ -137,34 +111,15 @@ class _CommandListScreenState extends State<CommandListScreen> {
                             const SizedBox(
                               width: 10,
                             ),
-                            CircleAvatar(
-                              backgroundColor: Colors.red[400],
-                              foregroundColor: Colors.white,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.edit,
-                                ),
-                                alignment: Alignment.centerRight,
-                                // ignore: avoid_returning_null_for_void
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => RequestEditScreen(
-                                              request: request,
-                                              command: command,
-                                              item: item,
-                                            )),
-                                  );
-                                },
-                              ),
-                            ),
                           ],
                         ),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    CloseCommandScreen(command: command)));
+                                builder: (context) => CloseCommandScreen(
+                                      command: command,
+                                      item: item,
+                                    )));
                           },
                           child: const Text(
                             'Fechar Comanda',

@@ -23,30 +23,6 @@ class RequestEditScreen extends StatefulWidget {
 class _RequestEditScreenState extends State<RequestEditScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    /*
-    widget.request.subtotal.toString();
-    widget.request.quantity.toString();
-
-    widget.item.id;
-    widget.item.name;
-    widget.item.category;
-    widget.item.description;
-    widget.item.disponibility;
-    widget.item.value;
-
-    widget.command.id!;
-    widget.command.table.toString();
-    widget.command.date;
-    widget.command.total.toString();
-    widget.command.condition;
-    widget.command.clientName;
-    widget.command.employee.toString();
-    widget.command.requests.toString();
-    */
-  }
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -99,6 +75,7 @@ class _RequestEditScreenState extends State<RequestEditScreen> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
+                              /*
                               RestaurantCommand command = RestaurantCommand(
                                 id: widget.command.id,
                                 table: widget.command.table,
@@ -121,6 +98,7 @@ class _RequestEditScreenState extends State<RequestEditScreen> {
                                   quantity: widget.request.quantity,
                                   subtotal: widget.request.subtotal);
 
+*/
                               if (formKey.currentState!.validate() == false) {
                                 const ScaffoldMessenger(
                                   child: SnackBar(
@@ -135,7 +113,8 @@ class _RequestEditScreenState extends State<RequestEditScreen> {
                               }
 
                               RequestService service = RequestService();
-                              service.updateRequest(request, command);
+                              service.updateRequest(
+                                  widget.request, widget.command);
                             }
                           },
                           child: const Text(

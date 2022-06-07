@@ -11,7 +11,7 @@ class ItemService {
     _firestore.collection("itens").doc(item.id).set(itemMap);
   }
 
-  getItems() {
+  getItems() async {
     var employeeCollection = _firestore.collection("itens");
     return employeeCollection.snapshots();
   }

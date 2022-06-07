@@ -1,13 +1,22 @@
+import 'package:comanda_digital/Model/units/item.dart';
+import 'package:comanda_digital/Model/units/itemservice.dart';
+import 'package:comanda_digital/Model/units/request.dart';
+import 'package:comanda_digital/Model/units/request.dart';
+import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
+import 'package:comanda_digital/Screens/getrequest.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class CloseCommandScreen extends StatefulWidget {
   final RestaurantCommand command;
+  final Item item;
+
   const CloseCommandScreen({
     required this.command,
     Key? key,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -15,7 +24,9 @@ class CloseCommandScreen extends StatefulWidget {
 }
 
 class _CloseCommandScreen extends State<CloseCommandScreen> {
+  RequestService requestService = RequestService();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  var itemidController = TextEditingController();
   var idController = TextEditingController();
   var tableController = TextEditingController();
   var dateController = TextEditingController();
@@ -25,9 +36,11 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
   var paymentFormController = TextEditingController();
   var employeeController = TextEditingController();
   var requestsController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    itemidController.text = widget.item.id;
     idController.text = widget.command.id!;
     tableController.text = widget.command.table.toString();
     dateController.text = widget.command.date;
@@ -38,6 +51,7 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
     requestsController.text = widget.command.requests.toString();
   }
 
+  ItemService itemService = ItemService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,26 +174,45 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    RestaurantCommand command = RestaurantCommand(
+                      id: widget.command.id,
+                      table: widget.command.table,
+                      date: widget.command.date,
+                      total: widget.command.total,
+                      condition: widget.command.condition,
+                      clientName: widget.command.clientName,
+                      paymentForm: widget.command.paymentForm,
+                      employee: widget.command.employee,
+                      requests: widget.command.requests,
+                    );
+
+                    var getrequest = await requestService.getRequests(command);
+
                     if (formKey.currentState!.validate()) {
+                      List<Request> requests = [];
+                      for (int i = 0; i < getrequest.docs.length; i++) {
+                        var getItem = await itemService
+                            .getItem(getrequest.docs[i].get('itemid'));
+                        var item = Item(
+                          id: getItem.id,
+                          name: getItem.get('name'),
+                          category: getItem.get('category'),
+                          description: getItem.get('description'),
+                          value: getItem.get('value'),
+                          disponibility: getItem.get('disponibility'),
+                        );
+
+                        var request = Request(
+                            quantity: getrequest.docs[i].get('quantity'),
+                            subtotal: getrequest.docs[i].get('subtotal'),
+                            item: item);
+                        requests.add(request);
+                      }
                       RestaurantCommandService commandService =
                           RestaurantCommandService();
                       formKey.currentState!.save();
-
-                      RestaurantCommand command = RestaurantCommand(
-                        id: widget.command.id,
-                        table: widget.command.table,
-                        date: widget.command.date,
-                        total: widget.command.total,
-                        condition: widget.command.condition,
-                        clientName: widget.command.clientName,
-                        paymentForm: widget.command.paymentForm,
-                        employee: widget.command.employee,
-                        requests: widget.command.requests,
-                      );
-
                       commandService.updateRestaurantCommand(command);
-
                       Navigator.of(context).pop();
                       Fluttertoast.showToast(
                         msg: "Comanda fechada com sucesso!",
@@ -188,6 +221,12 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
                         backgroundColor: const Color(0x55111100),
                       );
                     }
+                    Fluttertoast.showToast(
+                      msg: "Falha ao fechar a comanda!",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: const Color(0x55000000),
+                    );
                   },
                   child: const Text("Fechar Comanda"),
                 ),
