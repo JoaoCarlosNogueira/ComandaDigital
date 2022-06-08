@@ -1,230 +1,162 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:comanda_digital/Model/units/itemservice.dart';
+import 'package:comanda_digital/Model/units/request.dart';
+import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
-import 'package:comanda_digital/Screens/adicionarPedido.dart';
-
+import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
+import 'package:comanda_digital/RestaurantCommandListScreen.dart';
 import 'package:flutter/material.dart';
-
-import '../Model/units/restaurante_command_service.dart';
+import '../Model/units/item.dart';
 
 class RequestAddScreen extends StatefulWidget {
   final RestaurantCommand command;
-
-  const RequestAddScreen({Key? key, required RestaurantCommand this.command})
-      : super(key: key);
-
+  const RequestAddScreen({Key? key, required this.command}) : super(key: key);
   @override
-  State<RequestAddScreen> createState() => _RequestAddScreenState();
+  State<RequestAddScreen> createState() => RequestAddScreenState();
 }
 
-class _RequestAddScreenState extends State<RequestAddScreen> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  RestaurantCommand command = RestaurantCommand(
-    id: '',
-    table: 0,
-    date: '',
-    total: 0,
-    condition: '',
-    clientName: '',
-    employee: [],
-    requests: [],
-  );
+class RequestAddScreenState extends State<RequestAddScreen> {
+  final GlobalKey<ScaffoldState> Keyzinho = GlobalKey<ScaffoldState>();
+  ItemService itemService = ItemService();
+  RequestService requestService = RequestService();
+  RestaurantCommandService serviceCommand = RestaurantCommandService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: Keyzinho,
       appBar: AppBar(
-        title: const Text('Comanda'),
+        title: const Text('Tela de pedidos'),
         centerTitle: true,
       ),
-      body: Center(
-          child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        child: Form(
-          key: formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            shrinkWrap: true,
-            children: <Widget>[
-              TextFormField(
-                onSaved: (value) => widget.command.table = int.parse(value!),
-                obscureText: false,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Numero da mesa '),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Campo obrigatório';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                onSaved: (value) => widget.command.clientName = value!,
-                obscureText: false,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Nome do Cliente'),
-                validator: (value) {
-                  if (value!.length > 30) {
-                    return 'Limete de caracteres excedido';
-                  } else if (value.isEmpty) {
-                    return 'Campo obrigatório';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                onSaved: (value) => widget.command.date = value!,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Data'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Campo obrigatório';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                onSaved: (value) => widget.command.total = value! as double,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Total'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Campo obrigatório';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                onSaved: (value) => widget.command.condition = value!,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Condicao'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Campo obrigatório';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => AdicionarPedido(
-                        command: widget.command,
+      body: StreamBuilder<QuerySnapshot>(
+        stream: itemService.getItems(),
+        builder: (BuildContext context, snapshot) {
+          //Stream<QuerySnapshot<Object?>>
+          if (snapshot.hasData) {
+            List<DocumentSnapshot> docSnap = snapshot.data!.docs;
+            return ListView.separated(
+              itemBuilder: (context, index) {
+                var item = Item(
+                    id: (docSnap[index].id),
+                    name: (docSnap[index].get('name')),
+                    category: (docSnap[index].get('category')),
+                    value: (docSnap[index].get('value')),
+                    description: (docSnap[index].get('description')),
+                    disponibility: '');
+
+                final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+                Request request = Request(
+                  id: '',
+                  quantity: 0,
+                  subtotal: 0,
+                  item: item,
+                );
+                return Card(
+                  child: Form(
+                    key: formKey,
+                    child: Column(children: [
+                      Text(
+                        item.id,
                       ),
-                    ),
-                  );
-                },
-                child: const Text('Realizar pedido'),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.deepOrange,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
-                    textStyle: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold)),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                    if (formKey.currentState!.validate() == false) {
-                      const ScaffoldMessenger(
-                        child: SnackBar(
-                          content: Text(
-                            'Verifique os dados e tende novamente!!!',
-                            style: TextStyle(fontSize: 11),
+                      Row(mainAxisAlignment: MainAxisAlignment.start),
+                      Text(item.id),
+                      Text(item.name),
+                      Text(item.category),
+                      Text(item.description),
+                      Text(item.value.toString()),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      TextFormField(
+                        onSaved: (quantity) =>
+                            request.quantity = int.parse(quantity!),
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Quantidade de Pedido'),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Digite um valor valor válido';
+                          } else if (value.isEmpty) {
+                            return 'Campo obrigatório';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          formKey.currentState!.save();
+                          request.subtotal = item.value * request.quantity;
+                          requestService.addpedido(request, widget.command);
+
+                          for (int i = 0;
+                              i < widget.command.requests!.length;
+                              i++) {
+                            widget.command.total = widget.command.total +
+                                widget.command.requests![i].subtotal;
+                          }
+                          serviceCommand
+                              .updateRestaurantCommand(widget.command);
+                        },
+                        child: const Text(
+                          'Adicionar Pedido',
+                          style: TextStyle(
+                            fontSize: 16,
                           ),
-                          backgroundColor: Colors.red,
                         ),
-                      );
-                      return;
-                    }
-                    RestaurantCommandService restaurantService =
-                        RestaurantCommandService();
-                    restaurantService.add(
-                      widget.command,
-                    );
-                  }
-                },
-                child: const Text(
-                  'Adicionar Comanda',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                    if (formKey.currentState!.validate() == false) {
-                      const ScaffoldMessenger(
-                        child: SnackBar(
-                          content: Text(
-                            'Verifique os dados e tende novamente!!!',
-                            style: TextStyle(fontSize: 11),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const CommandListScreen()));
+                        },
+                        child: const Text(
+                          'Comandas Abertas',
+                          style: TextStyle(
+                            fontSize: 16,
                           ),
-                          backgroundColor: Colors.red,
                         ),
-                      );
-                      return;
-                    }
-                  }
-                },
-                child: const Text(
-                  'Remover Comanda',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                    if (formKey.currentState!.validate() == false) {
-                      const ScaffoldMessenger(
-                        child: SnackBar(
-                          content: Text(
-                            'Verifique os dados e tende novamente!!!',
-                            style: TextStyle(fontSize: 11),
-                          ),
-                          backgroundColor: Colors.red,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.deepOrange,
+                          textStyle: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
-                      );
-                      return;
-                    }
-                    RestaurantCommandService restaurantService =
-                        RestaurantCommandService();
-                    restaurantService.updateRestaurantCommand(command);
-                  }
-                },
-                child: const Text(
-                  'Atualizar comanda',
-                  style: TextStyle(
-                    fontSize: 16,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ]),
                   ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  height: 10,
+                );
+              },
+              itemCount: docSnap.length,
+              shrinkWrap: true,
+              reverse: true,
+            );
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            return ListView(
+              children: const [
+                Align(
+                  alignment: AlignmentDirectional.center,
+                  child: Text("Não há dados disponíveis"),
                 ),
-              ),
-            ],
-          ),
-        ),
-      )),
+              ],
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }

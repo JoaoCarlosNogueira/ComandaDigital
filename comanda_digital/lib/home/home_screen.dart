@@ -1,7 +1,6 @@
 import 'package:comanda_digital/Screens/RequestAddScreen.dart';
 import 'package:comanda_digital/Screens/dashboard/dashboard_screen.dart';
-import 'package:comanda_digital/Screens/first_page.dart';
-import 'package:comanda_digital/Screens/second_page.dart';
+
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    pageList.add(const FirstPage());
     pageList.add(DashboardScreen());
     // pageList.add(SecondPage());
     super.initState();
@@ -40,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
           BottomNavigationBarItem(
               icon: Icon(Icons.list_alt), label: "Categorias"),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Menu"),
+          // BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Menu"),
         ],
       ),
     );

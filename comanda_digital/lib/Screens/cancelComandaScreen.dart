@@ -1,14 +1,9 @@
-import 'package:comanda_digital/Model/units/item.dart';
-import 'package:comanda_digital/Model/units/itemservice.dart';
-import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
-import 'package:comanda_digital/Screens/closecCommandScreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'closecCommandScreen.dart';
 
 class CancelCommandScreen extends StatefulWidget {
   final RestaurantCommand command;
@@ -39,6 +34,7 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
   @override
   void initState() {
     super.initState();
+    /*
     idController.text = widget.command.id!;
 
     idController.text = widget.command.id!;
@@ -50,6 +46,7 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
     employeeController.text = widget.command.employee.toString();
     requestsController.text = widget.command.requests.toString();
     paymentFormController.text = widget.command.paymentForm!;
+    */
   }
 
   @override
@@ -86,6 +83,7 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () async {
+                      // formKey.currentState!.save();
                       RestaurantCommand command = RestaurantCommand(
                         id: widget.command.id,
                         table: widget.command.table,
@@ -98,15 +96,13 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
                         requests: widget.command.requests,
                       );
                       RequestService requestService = RequestService();
-                      ItemService itemService = ItemService();
 
                       var getrequest =
                           await requestService.getRequests(command);
                       RestaurantCommandService commandService =
                           RestaurantCommandService();
-                      print(getrequest);
+
                       if (getrequest.docs.isEmpty == true) {
-                        print(getrequest);
                         commandService
                             .deleteRestaurantCommand(widget.command.id!);
                         Navigator.of(context).pop();
@@ -134,24 +130,3 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
         ));
   }
 }
-
- /*if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        if (formKey.currentState!.validate() == false) {
-                          const ScaffoldMessenger(
-                            child: SnackBar(
-                              content: Text(
-                                'Verifique os dados e tende novamente!!!',
-                                style: TextStyle(fontSize: 11),
-                              ),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
-                        RestaurantCommandService service =
-                            RestaurantCommandService();
-
-                        service.deleteRestaurantCommand(widget.command.id!);
-                      }
-                      */

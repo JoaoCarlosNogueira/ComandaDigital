@@ -107,27 +107,17 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
                         height: 20,
                       ),
                       Text(
-                        "Garçom: ${widget.command.employee}",
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Pedidos: ${widget.command.requests}",
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
                         "Total: ${widget.command.total}",
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Condição: ${widget.command.condition}",
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -165,6 +155,34 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+                      const Text(
+                        'Altere a Condição',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, Informe se a comanda foi paga ou não';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        onSaved: (value) => widget.command.condition = value!,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      )
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                   ),
@@ -173,6 +191,7 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
+                    formKey.currentState!.save();
                     RestaurantCommand command = RestaurantCommand(
                       id: widget.command.id,
                       table: widget.command.table,
@@ -209,8 +228,8 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
                       }
                       RestaurantCommandService commandService =
                           RestaurantCommandService();
-                      formKey.currentState!.save();
-                      commandService.updateRestaurantCommand(command);
+
+                      commandService.updateRestaurantCommand(widget.command);
                       Navigator.of(context).pop();
                       Fluttertoast.showToast(
                         msg: "Comanda fechada com sucesso!",
@@ -218,14 +237,14 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
                         gravity: ToastGravity.BOTTOM,
                         backgroundColor: const Color(0x55111100),
                       );
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Falha ao fechar a comanda!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: const Color(0x55000000),
+                      );
                     }
-
-                    Fluttertoast.showToast(
-                      msg: "Falha ao fechar a comanda!",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: const Color(0x55000000),
-                    );
                   },
                   child: const Text("Fechar Comanda"),
                 ),

@@ -1,9 +1,10 @@
+import 'package:comanda_digital/Model/units/User/employee.dart';
 import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
 import 'package:comanda_digital/RestaurantCommandListScreen.dart';
-import 'package:comanda_digital/Screens/adicionarPedido.dart';
+import 'package:comanda_digital/Screens/requestAddScreen.dart';
 import 'package:comanda_digital/Screens/helpers/dateInputMask.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +25,10 @@ class _RestaurantCommandAddScreenState
 
   RestaurantCommand command = RestaurantCommand(
       id: '',
-      table: 1,
+      table: 0,
       date: '',
       total: 0,
-      condition: '',
+      condition: 'Aberta',
       clientName: '',
       employee: [],
       requests: [],
@@ -149,7 +150,7 @@ class _RestaurantCommandAddScreenState
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              AdicionarPedido(command: command),
+                              RequestAddScreen(command: command),
                         ),
                       );
                     } else {

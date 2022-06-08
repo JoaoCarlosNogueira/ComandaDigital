@@ -4,9 +4,13 @@ class Request {
   String? id;
   late Item item;
   late int quantity;
-  late double subtotal;
+  double subtotal;
 
-  Request({required this.item, required this.quantity, required this.subtotal});
+  Request(
+      {this.id,
+      required this.item,
+      required this.quantity,
+      required this.subtotal});
 
   Request.fromMap(Map<String, dynamic> map)
       : item = map['itemid'],

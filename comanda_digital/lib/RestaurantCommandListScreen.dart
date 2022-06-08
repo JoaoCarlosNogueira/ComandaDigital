@@ -5,7 +5,7 @@ import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
-import 'package:comanda_digital/Screens/adicionarPedido.dart';
+import 'package:comanda_digital/Screens/requestAddScreen.dart';
 import 'package:comanda_digital/Screens/cancelComandaScreen.dart';
 import 'package:comanda_digital/Screens/closecCommandScreen.dart';
 import 'package:comanda_digital/Screens/requestEditScreen.dart';
@@ -28,6 +28,10 @@ class _CommandListScreenState extends State<CommandListScreen> {
     ItemService itemService = ItemService();
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Comanda'),
+        centerTitle: true,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: commandService.getRestaurantCommand(),
         builder: (BuildContext context, snapshot) {
@@ -170,18 +174,40 @@ class _CommandListScreenState extends State<CommandListScreen> {
                                               children: [
                                                 Text('Código do Produto' +
                                                     item.id.toString()),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
                                                 Text('Produto' + item.name),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
                                                 Text('Categoria' +
                                                     item.category),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
                                                 Text('Valor' +
                                                     item.value.toString()),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
                                                 Text('Disponibilidade' +
                                                     item.disponibility),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
                                                 Text('Quantity' +
                                                     request.quantity
                                                         .toString()),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
                                                 Text('Subtotal' +
-                                                    request.subtotal.toString())
+                                                    request.subtotal
+                                                        .toString()),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
                                               ],
                                             ),
                                           );
@@ -223,7 +249,8 @@ class _CommandListScreenState extends State<CommandListScreen> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => AdicionarPedido(command: command),
+                        builder: (context) =>
+                            RequestAddScreen(command: command),
                       ),
                     );
                   },
