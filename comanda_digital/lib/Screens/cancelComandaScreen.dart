@@ -102,37 +102,21 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
 
                       var getrequest =
                           await requestService.getRequests(command);
-
-                      List<Request> requests = [];
-                      for (int i = 0; i < getrequest.docs.length; i++) {
-                        var getItem = await itemService
-                            .getItem(getrequest.docs[i].get('itemid'));
-                        var item = Item(
-                          id: getItem.id,
-                          name: getItem.get('name'),
-                          category: getItem.get('category'),
-                          description: getItem.get('description'),
-                          value: getItem.get('value'),
-                          disponibility: getItem.get('disponibility'),
-                        );
-
-                        var request = Request(
-                            quantity: getrequest.docs[i].get('quantity'),
-                            subtotal: getrequest.docs[i].get('subtotal'),
-                            item: item);
-                        requests.add(request);
-                      }
                       RestaurantCommandService commandService =
                           RestaurantCommandService();
-                      formKey.currentState!.save();
-                      commandService.deleteRestaurantCommand(command.id!);
-                      Navigator.of(context).pop();
-                      Fluttertoast.showToast(
-                        msg: "Comanda fechada com sucesso!",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: const Color(0x55111100),
-                      );
+
+                      if (widget.command.requests!.isEmpty == true) {
+                        print(getrequest);
+                        commandService
+                            .deleteRestaurantCommand(widget.command.id!);
+                        Navigator.of(context).pop();
+                        Fluttertoast.showToast(
+                          msg: "Comanda fechada com sucesso!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: const Color(0x55111100),
+                        );
+                      }
 
                       Fluttertoast.showToast(
                         msg: "Falha ao fechar a comanda!",
