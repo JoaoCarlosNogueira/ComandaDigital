@@ -23,15 +23,15 @@ class _RestaurantCommandAddScreenState
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   RestaurantCommand command = RestaurantCommand(
-    id: '',
-    table: 1,
-    date: '',
-    total: 0,
-    condition: '',
-    clientName: '',
-    employee: [],
-    requests: [],
-  );
+      id: '',
+      table: 1,
+      date: '',
+      total: 0,
+      condition: '',
+      clientName: '',
+      employee: [],
+      requests: [],
+      paymentForm: 'valores');
   Item item = Item(
       id: '',
       name: '',

@@ -1,11 +1,10 @@
 import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
 import 'package:comanda_digital/Model/units/request.dart';
-import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
-import 'package:comanda_digital/Screens/getrequest.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -47,6 +46,7 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
     clientNameController.text = widget.command.clientName;
     employeeController.text = widget.command.employee.toString();
     requestsController.text = widget.command.requests.toString();
+    paymentFormController.text = widget.command.paymentForm!;
   }
 
   ItemService itemService = ItemService();
@@ -219,6 +219,7 @@ class _CloseCommandScreen extends State<CloseCommandScreen> {
                         backgroundColor: const Color(0x55111100),
                       );
                     }
+
                     Fluttertoast.showToast(
                       msg: "Falha ao fechar a comanda!",
                       toastLength: Toast.LENGTH_SHORT,

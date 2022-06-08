@@ -42,6 +42,7 @@ class RequestService {
   updateRequest(Request request, RestaurantCommand command) {
     print(request.id);
     print('commandId: ${command.id}');
+
     DocumentReference docRef = _firestore
         .collection('comanda')
         .doc(command.id)

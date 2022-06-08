@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 class ItemService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  add(Item item) async {
+  add(Item item) {
     var itemMap = item.toMap();
     // await _firestore.collection("itens").add(itemMap);
     _firestore.collection("itens").doc(item.id).set(itemMap);
   }
 
-  getItems() async {
+  getItems() {
     var employeeCollection = _firestore.collection("itens");
     return employeeCollection.snapshots();
   }

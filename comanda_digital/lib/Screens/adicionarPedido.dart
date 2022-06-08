@@ -28,7 +28,7 @@ class AdicionarPedidoState extends State<AdicionarPedido> {
     clientName: '',
     employee: [],
     requests: [],
-    paymentForm: 'x',
+    paymentForm: '',
   );
 
   AdicionarPedidoState(RestaurantCommand command);

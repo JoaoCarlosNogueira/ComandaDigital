@@ -25,6 +25,7 @@ class RestaurantCommandService {
   }
 
   updateRestaurantCommand(RestaurantCommand command) {
+    print('PaymentForm: ${command.paymentForm}');
     DocumentReference docRef = _firestore.collection('comanda').doc(command.id);
     docRef
         .update(command.toMap())

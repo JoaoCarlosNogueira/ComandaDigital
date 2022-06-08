@@ -39,6 +39,7 @@ class _CommandListScreenState extends State<CommandListScreen> {
                     clientName: (docSnap[index].get('clientName')),
                     condition: (docSnap[index].get('condition')),
                     date: (docSnap[index].get('date')),
+                    paymentForm: (docSnap[index].get('paymentform')),
                     employee: [],
                     requests: [],
                     table: (docSnap[index].get('table')),
