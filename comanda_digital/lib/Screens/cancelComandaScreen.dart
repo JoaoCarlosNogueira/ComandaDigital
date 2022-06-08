@@ -104,8 +104,8 @@ class _CancelCommandScreenState extends State<CancelCommandScreen> {
                           await requestService.getRequests(command);
                       RestaurantCommandService commandService =
                           RestaurantCommandService();
-
-                      if (widget.command.requests!.isEmpty == true) {
+                      print(getrequest);
+                      if (getrequest.docs.isEmpty == true) {
                         print(getrequest);
                         commandService
                             .deleteRestaurantCommand(widget.command.id!);
