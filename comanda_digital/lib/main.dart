@@ -1,4 +1,4 @@
-import 'package:comanda_digital/RestaurantCommandListScreen.dart';
+import 'package:comanda_digital/Screens/RestaurantCommandListScreen.dart';
 import 'package:comanda_digital/Screens/RestaurantCommandAddScreen.dart';
 import 'package:comanda_digital/Screens/closecCommandScreen.dart';
 import 'package:comanda_digital/Screens/getrequest.dart';
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),

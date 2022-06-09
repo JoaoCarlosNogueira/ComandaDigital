@@ -1,158 +1,249 @@
 import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
+import 'package:comanda_digital/Screens/helpers/numberItemMask.dart';
+import 'package:easy_mask/easy_mask.dart';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class ItemEditScreens extends StatefulWidget {
-  const ItemEditScreens({Key? key}) : super(key: key);
+class ItemEditScreen extends StatefulWidget {
+  final Item item;
 
+  const ItemEditScreen({required this.item, Key? key}) : super(key: key);
+  //@override
   @override
-  State<ItemEditScreens> createState() => _ItemEditScreensState();
+  State<ItemEditScreen> createState() => _itemEditScreen();
 }
 
-class _ItemEditScreensState extends State<ItemEditScreens> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+bool isChecked = false;
+bool noChecked = true;
 
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+class _itemEditScreen extends State<ItemEditScreen> {
+  var idController = TextEditingController();
+  var nameController = TextEditingController();
+  var categoryController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var valueController = TextEditingController();
+  var disponibilityController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    idController.text = widget.item.id;
+
+    nameController.text = widget.item.name;
+    categoryController.text = widget.item.category;
+    descriptionController.text = widget.item.description;
+    valueController.text = widget.item.value.toString();
+    disponibilityController.text = widget.item.disponibility;
+  }
+
+  final _formKey = GlobalKey<FormState>();
 
   Item item = Item(
-    id: 'id',
-    name: 'name',
-    category: 'category',
-    description: 'desciption',
+    id: '',
+    name: '',
+    category: '',
+    description: '',
     value: 0,
-    disponibility: '',
+    disponibility: 'oi00000',
   );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        appBar: AppBar(
-          title: const Text('Edição de Itens'),
-          centerTitle: true,
-        ),
-        body: Center(
-            child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: Form(
-                    key: formKey,
-                    child: ListView(
-                      padding: const EdgeInsets.all(16),
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Código'),
-                          validator: (id) {
-                            if (id!.isEmpty) {
-                              return 'Campo obrigatorio!!!';
-                            }
-                            return null;
-                          },
-                          onSaved: (id) => item.id = id!,
+      appBar: AppBar(
+        title: const Text("Editar itens"),
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "código:",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(), labelText: 'Nome'),
-                          validator: (name) {
-                            if (name!.isEmpty) {
-                              return 'Campo obrigatorio';
-                            } else if (name.trim().split('').length <= 1) {
-                              return 'Preencha seu nome Completo';
-                            }
-
-                            return null;
-                          },
-                          onSaved: (name) => item.name = name!,
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Categoria'),
-                          obscureText: false,
-                          validator: (category) {
-                            if (category!.isEmpty) {
-                              return 'Campo obrigatório!!!';
-                            } else if (category.length > 10) {
-                              return 'Limite de caracteres excedido';
-                            }
-                            return null;
-                          },
-                          onSaved: (category) => item.category = category!,
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Descricão'),
-                          keyboardType: TextInputType.text,
-                          validator: (description) {
-                            if (description!.isEmpty) {
-                              return 'Campo obrigatório';
-                            } else if (description.length > 55) {
-                              return ' O limite de caracteres foi excedido';
-                            }
-                            return null;
-                          },
-                          onSaved: (description) =>
-                              item.description = description!,
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(), labelText: 'Valor'),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Campo obrigatorio!!!';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) => item.value = double.parse(value!),
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              formKey.currentState!.save();
-                              if (formKey.currentState!.validate() == false) {
-                                const ScaffoldMessenger(
-                                  child: SnackBar(
-                                    content: Text(
-                                      'Verifique os dados e tende novamente!!!',
-                                      style: TextStyle(fontSize: 11),
-                                    ),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                                return;
-                              }
-                              ItemService itemService = ItemService();
-                              itemService.updateItem(
-                                item,
-                              );
-                            }
-                          },
-                          child: const Text(
-                            'Atualizar Item',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: idController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, entre com o nome';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => item.id = (value!),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                      ],
-                    )))));
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        'Nome',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: nameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, entre com o nome';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => item.name = (value!),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        'Categoria',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.name,
+                        controller: categoryController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Por favor, entre com a categoria';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => item.category = (value!),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        'Descricao',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: descriptionController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, entre com a descrição';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => item.description = (value!),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        'Valor',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: valueController,
+                        validator: (value) {
+                          double.parse(value!);
+                          if (value.isEmpty) {
+                            return 'Por favor, entre com o valor';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => item.value = double.parse(value!),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                ),
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      ItemService service = ItemService();
+
+                      service.updateItem(item);
+                      Navigator.of(context).pop();
+                      Fluttertoast.showToast(
+                        msg: "Dados alterados com sucesso!",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: const Color(0x55111100),
+                      );
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Verifique os dados e tente novamente",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: const Color(0x55111100),
+                      );
+                    }
+                  },
+                  child: const Text("Editar Dados"),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -3,7 +3,7 @@ import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
-import 'package:comanda_digital/RestaurantCommandListScreen.dart';
+import 'package:comanda_digital/Screens/RestaurantCommandListScreen.dart';
 import 'package:comanda_digital/Screens/requestAddScreen.dart';
 import 'package:comanda_digital/Screens/helpers/dateInputMask.dart';
 import 'package:easy_mask/easy_mask.dart';

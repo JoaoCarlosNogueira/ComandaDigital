@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/itemservice.dart';
-import 'package:comanda_digital/Screens/itemEdit_screen.dart';
+import 'package:comanda_digital/Screens/itemEditScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,54 +31,78 @@ class ItemslistScreen extends StatelessWidget {
                     description: (docSnap[index].get('description')),
                     value: (docSnap[index].get('value')),
                     disponibility: (docSnap[index].get('disponibility')));
-                return Card(
-                  child: Column(
-                    children: [
-                      Text(item.id),
-                      Text(item.name),
-                      Text(item.description),
-                      Text(item.category),
-                      Text(item.value.toString()),
-                      Text(item.disponibility),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.red[400],
-                            foregroundColor: Colors.white,
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.delete,
+                return Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Card(
+                    color: Colors.orange[200],
+                    elevation: 10,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Código:" + item.id),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Item: " + item.name),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Descrição: " + item.description),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Categoria: " + item.category),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Value" + item.value.toString()),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Disponibilidade:" + item.disponibility),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.red[400],
+                              foregroundColor: Colors.white,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                ),
+                                alignment: Alignment.centerRight,
+
+                                // ignore: avoid_returning_null_for_void
+                                onPressed: () {
+                                  itemService.deleteItem(item.id);
+                                  Fluttertoast.showToast(
+                                    msg: "Produto deletado com Sucesso!",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    backgroundColor: const Color(0x55000000),
+                                  );
+                                },
                               ),
-                              alignment: Alignment.centerRight,
-                              // ignore: avoid_returning_null_for_void
-                              onPressed: () {
-                                itemService.deleteItem(item.id);
-                                Fluttertoast.showToast(
-                                  msg: "Produto deletado com Sucesso!",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  backgroundColor: const Color(0x55000000),
-                                );
-                              },
+                            ),
+                          ],
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    ItemEditScreen(item: item)));
+                          },
+                          child: const Text(
+                            'Editar Itens',
+                            style: TextStyle(
+                              fontSize: 16,
                             ),
                           ),
-                        ],
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  ItemEditScreen(item: item)));
-                        },
-                        child: const Text(
-                          'Editar Itens',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },

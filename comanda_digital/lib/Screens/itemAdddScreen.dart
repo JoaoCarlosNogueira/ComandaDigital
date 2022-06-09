@@ -167,18 +167,6 @@ class _ItemAddScreenState extends State<ItemAddScreen> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ItemDeleteScreen()));
-                },
-                child: const Text(
-                  'Deleção de Item',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const ItemslistScreen()));
                 },
                 child: const Text(

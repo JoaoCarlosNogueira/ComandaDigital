@@ -4,7 +4,8 @@ import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
-import 'package:comanda_digital/RestaurantCommandListScreen.dart';
+import 'package:comanda_digital/Screens/RestaurantCommandListScreen.dart';
+
 import 'package:flutter/material.dart';
 import '../Model/units/item.dart';
 
@@ -53,82 +54,97 @@ class RequestAddScreenState extends State<RequestAddScreen> {
                   item: item,
                 );
                 return Card(
-                  child: Form(
-                    key: formKey,
-                    child: Column(children: [
-                      Text(
-                        item.id,
-                      ),
-                      Row(mainAxisAlignment: MainAxisAlignment.start),
-                      Text(item.id),
-                      Text(item.name),
-                      Text(item.category),
-                      Text(item.description),
-                      Text(item.value.toString()),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        onSaved: (quantity) =>
-                            request.quantity = int.parse(quantity!),
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Quantidade de Pedido'),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Digite um valor valor válido';
-                          } else if (value.isEmpty) {
-                            return 'Campo obrigatório';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          formKey.currentState!.save();
-                          request.subtotal = item.value * request.quantity;
-                          requestService.addpedido(request, widget.command);
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0, bottom: 30),
+                    child: Form(
+                      key: formKey,
+                      child: Column(children: [
+                        Row(mainAxisAlignment: MainAxisAlignment.start),
+                        Text(item.id),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(item.name),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(item.category),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(item.description),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(item.value.toString()),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                          onSaved: (quantity) =>
+                              request.quantity = int.parse(quantity!),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Quantidade de Pedido'),
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Digite um valor valor válido';
+                            } else if (value.isEmpty) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            formKey.currentState!.save();
+                            var getrequests = await requestService
+                                .getRequests(widget.command);
+                            request.subtotal = item.value * request.quantity;
+                            requestService.addpedido(request, widget.command);
+                            widget.command.total = 0;
+                            print(getrequests.size);
+                            for (int i = 0; i < getrequests.size; i++) {
+                              widget.command.total = widget.command.total +
+                                  getrequests.docs[i].get('subtotal');
+                            }
 
-                          for (int i = 0;
-                              i < widget.command.requests!.length;
-                              i++) {
-                            widget.command.total = widget.command.total +
-                                widget.command.requests![i].subtotal;
-                          }
-                          serviceCommand
-                              .updateRestaurantCommand(widget.command);
-                        },
-                        child: const Text(
-                          'Adicionar Pedido',
-                          style: TextStyle(
-                            fontSize: 16,
+                            serviceCommand
+                                .updateRestaurantCommand(widget.command);
+                          },
+                          child: const Text(
+                            'Adicionar Pedido',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
                           ),
                         ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const CommandListScreen()));
-                        },
-                        child: const Text(
-                          'Comandas Abertas',
-                          style: TextStyle(
-                            fontSize: 16,
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const CommandListScreen()));
+                          },
+                          child: const Text(
+                            'Comandas Abertas',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrange,
+                            textStyle: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.deepOrange,
-                          textStyle: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ]),
+                      ]),
+                    ),
                   ),
                 );
               },
