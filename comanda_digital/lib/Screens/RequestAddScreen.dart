@@ -100,20 +100,21 @@ class RequestAddScreenState extends State<RequestAddScreen> {
                         ),
                         ElevatedButton(
                           onPressed: () async {
+                            print('salvando');
                             formKey.currentState!.save();
-                            var getrequests = await requestService
-                                .getRequests(widget.command);
-                            request.subtotal = item.value * request.quantity;
-                            requestService.addpedido(request, widget.command);
-                            widget.command.total = 0;
-                            print(getrequests.size);
-                            for (int i = 0; i < getrequests.size; i++) {
-                              widget.command.total = widget.command.total +
-                                  getrequests.docs[i].get('subtotal');
+                            print('validando');
+                            if (formKey.currentState!.validate()) {
+                              print('válido');
+                              request.subtotal = item.value * request.quantity;
+                              await requestService.addpedido(
+                                  request, widget.command);
+                              print('salvou o pedido');
+                              widget.command.total += request.subtotal;
+                              await serviceCommand
+                                  .updateRestaurantCommand(widget.command);
+                              print('salvou a comanda');
                             }
-
-                            serviceCommand
-                                .updateRestaurantCommand(widget.command);
+                            
                           },
                           child: const Text(
                             'Adicionar Pedido',
