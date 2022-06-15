@@ -4,7 +4,8 @@ import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
-import 'package:comanda_digital/Screens/RestaurantCommandListScreen.dart';
+import 'package:comanda_digital/Screens/RestaurantCommandOpenedListScreen.dart';
+import 'package:comanda_digital/Screens/closedCommandListScreen.dart';
 
 import 'package:flutter/material.dart';
 import '../Model/units/item.dart';
@@ -106,15 +107,17 @@ class RequestAddScreenState extends State<RequestAddScreen> {
                             if (formKey.currentState!.validate()) {
                               print('válido');
                               request.subtotal = item.value * request.quantity;
+                              print("Quantidade" + request.quantity.toString());
                               await requestService.addpedido(
                                   request, widget.command);
                               print('salvou o pedido');
+                              print("Total Comanda" +
+                                  widget.command.total.toString());
                               widget.command.total += request.subtotal;
                               await serviceCommand
                                   .updateRestaurantCommand(widget.command);
                               print('salvou a comanda');
                             }
-                            
                           },
                           child: const Text(
                             'Adicionar Pedido',
@@ -127,7 +130,7 @@ class RequestAddScreenState extends State<RequestAddScreen> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
-                                    const CommandListScreen()));
+                                    const CommandOpenedListScreen()));
                           },
                           child: const Text(
                             'Comandas Abertas',
@@ -143,6 +146,26 @@ class RequestAddScreenState extends State<RequestAddScreen> {
                         ),
                         const SizedBox(
                           height: 10,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    const ClosedCommandListScreen()));
+                          },
+                          child: const Text(
+                            'Comandas Fechadas',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.deepOrange,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15),
+                            textStyle: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ]),
                     ),

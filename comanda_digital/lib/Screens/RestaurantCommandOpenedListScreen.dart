@@ -6,21 +6,21 @@ import 'package:comanda_digital/Model/units/request_service.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
 import 'package:comanda_digital/Screens/requestAddScreen.dart';
-import 'package:comanda_digital/Screens/cancelComandaScreen.dart';
-import 'package:comanda_digital/Screens/closecCommandScreen.dart';
-import 'package:comanda_digital/Screens/requestEditScreen.dart';
+
+import 'package:comanda_digital/Screens/closeCommandScreen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class CommandListScreen extends StatefulWidget {
-  const CommandListScreen({Key? key}) : super(key: key);
+class CommandOpenedListScreen extends StatefulWidget {
+  const CommandOpenedListScreen({Key? key}) : super(key: key);
 
   @override
-  State<CommandListScreen> createState() => _CommandListScreenState();
+  State<CommandOpenedListScreen> createState() =>
+      _CommandOpenedListScreenState();
 }
 
-class _CommandListScreenState extends State<CommandListScreen> {
+class _CommandOpenedListScreenState extends State<CommandOpenedListScreen> {
   @override
   Widget build(BuildContext context) {
     RestaurantCommandService commandService = RestaurantCommandService();
@@ -29,11 +29,11 @@ class _CommandListScreenState extends State<CommandListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Comanda'),
+        title: const Text('Comandas Abertas'),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: commandService.getRestaurantCommand(),
+        stream: commandService.getRestaurantCommandOpen(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             List<DocumentSnapshot> docSnap = snapshot.data!.docs;

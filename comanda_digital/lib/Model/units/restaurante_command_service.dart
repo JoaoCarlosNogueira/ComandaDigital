@@ -16,6 +16,20 @@ class RestaurantCommandService {
     return commandCollection.snapshots();
   }
 
+  getRestaurantCommandsClosed() {
+    var commandCollection = _firestore
+        .collection("comanda")
+        .where("condition", isEqualTo: "Fechada");
+    return commandCollection.snapshots();
+  }
+
+  getRestaurantCommandOpen() {
+    var commandCollection = _firestore
+        .collection("comanda")
+        .where("condition", isEqualTo: "Aberta");
+    return commandCollection.snapshots();
+  }
+
   deleteRestaurantCommand(String id) {
     DocumentReference docRef = _firestore.collection('comanda').doc(id);
     docRef

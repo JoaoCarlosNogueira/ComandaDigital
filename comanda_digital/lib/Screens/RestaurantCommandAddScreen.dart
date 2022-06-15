@@ -3,7 +3,8 @@ import 'package:comanda_digital/Model/units/item.dart';
 import 'package:comanda_digital/Model/units/request.dart';
 import 'package:comanda_digital/Model/units/restaurant_command.dart';
 import 'package:comanda_digital/Model/units/restaurante_command_service.dart';
-import 'package:comanda_digital/Screens/RestaurantCommandListScreen.dart';
+import 'package:comanda_digital/Screens/RestaurantCommandOpenedListScreen.dart';
+import 'package:comanda_digital/Screens/closedCommandListScreen.dart';
 import 'package:comanda_digital/Screens/requestAddScreen.dart';
 import 'package:comanda_digital/Screens/helpers/dateInputMask.dart';
 import 'package:easy_mask/easy_mask.dart';
@@ -144,6 +145,7 @@ class _RestaurantCommandAddScreenState
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
                       final restaurantService = RestaurantCommandService();
+                      command.total = 0;
                       await restaurantService.add(
                         command,
                       );
@@ -183,10 +185,32 @@ class _RestaurantCommandAddScreenState
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const CommandListScreen()));
+                      builder: (context) => const CommandOpenedListScreen()));
                 },
                 child: const Text(
                   'Comandas Abertas',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepOrange,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  textStyle: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ClosedCommandListScreen()));
+                },
+                child: const Text(
+                  'Comandas Fechadas',
                   style: TextStyle(
                     fontSize: 16,
                   ),

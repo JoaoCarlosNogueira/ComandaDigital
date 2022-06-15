@@ -1,6 +1,5 @@
-import 'package:comanda_digital/Screens/RestaurantCommandListScreen.dart';
+import 'package:comanda_digital/Screens/RestaurantCommandOpenedListScreen.dart';
 import 'package:comanda_digital/Screens/RestaurantCommandAddScreen.dart';
-import 'package:comanda_digital/Screens/closecCommandScreen.dart';
 import 'package:comanda_digital/Screens/getrequest.dart';
 import 'package:comanda_digital/Screens/itemAdddScreen.dart';
 import 'package:comanda_digital/Screens/login/EmployeeListScreen.dart';
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/additem': (context) => const ItemAddScreen(),
         '/listUsers': (context) => const EmployeeListScreen(),
         '/addcomanda': (context) => RestaurantCommandAddScreen(),
-        '/getcomanda': (context) => const CommandListScreen(),
+        '/getcomanda': (context) => const CommandOpenedListScreen(),
         // '/addpedido': (context) => RestaurantCommandAddScreen(),
         '/getRequest': (context) => GetRequest(),
       },

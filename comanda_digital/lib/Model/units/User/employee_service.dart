@@ -34,7 +34,7 @@ class UserService {
         this.employee = employee;
         this.employee!.id = user!.uid;
         var employeeMap = employee.toMap();
-        _firestore.collection("funcionarios").add(employeeMap);
+        _firestore.collection("funcionarios").doc(user.uid).set(employeeMap);
         onSucess!();
       } catch (e) {
         debugPrint(e.toString());
